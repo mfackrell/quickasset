@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>QuickAsset | Seller Terminal</title>
     
-    <!-- Typography: Inter (UI) & JetBrains Mono (Data/Numbers) -->
+    <!-- Typography -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
@@ -25,14 +25,11 @@
                 extend: {
                     colors: {
                         brand: {
-                            orange: '#F97316', // Safety Orange
-                            dark: '#0F172A',   // Slate 900
-                            surface: '#1E293B', // Slate 800
-                            border: '#334155', // Slate 700
+                            orange: '#F97316',
+                            dark: '#0F172A', 
+                            surface: '#1E293B',
+                            border: '#334155',
                         }
-                    },
-                    animation: {
-                        'pulse-fast': 'pulse 1.5s cubic-bezier(0.4, 0, 0.6, 1) infinite',
                     }
                 }
             }
@@ -41,26 +38,17 @@
     
     <style>
         body { -webkit-font-smoothing: antialiased; }
-        
-        /* Technical Grid Background */
         .bg-grid {
             background-color: #0F172A;
             background-size: 40px 40px;
             background-image: linear-gradient(to right, rgba(255, 255, 255, 0.03) 1px, transparent 1px),
                               linear-gradient(to bottom, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
         }
-
-        /* Custom Scrollbar */
         ::-webkit-scrollbar { width: 8px; }
         ::-webkit-scrollbar-track { background: #0F172A; }
         ::-webkit-scrollbar-thumb { background: #334155; border-radius: 4px; }
         ::-webkit-scrollbar-thumb:hover { background: #475569; }
-
-        /* Input Autofill Fix for Dark Mode */
-        input:-webkit-autofill,
-        input:-webkit-autofill:hover, 
-        input:-webkit-autofill:focus, 
-        input:-webkit-autofill:active{
+        input:-webkit-autofill, input:-webkit-autofill:hover, input:-webkit-autofill:focus, input:-webkit-autofill:active{
             -webkit-box-shadow: 0 0 0 30px #1E293B inset !important;
             -webkit-text-fill-color: white !important;
         }
@@ -72,9 +60,7 @@
     <nav class="w-full border-b border-brand-border bg-brand-dark/90 backdrop-blur-md sticky top-0 z-50">
         <div class="max-w-4xl mx-auto px-6 h-16 flex items-center justify-between">
             <div class="flex items-center gap-3">
-                <div class="w-8 h-8 bg-brand-orange rounded-sm flex items-center justify-center font-mono font-bold text-brand-dark text-xl">
-                    Q
-                </div>
+                <div class="w-8 h-8 bg-brand-orange rounded-sm flex items-center justify-center font-mono font-bold text-brand-dark text-xl">Q</div>
                 <span class="font-bold text-sm tracking-wider uppercase text-slate-300">QuickAsset <span class="text-brand-orange">Terminal</span></span>
             </div>
             <div class="flex items-center gap-4">
@@ -82,9 +68,7 @@
                     <div class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></div>
                     <span class="text-xs font-mono text-slate-400">SYSTEM: ONLINE</span>
                 </div>
-                <div class="w-8 h-8 bg-slate-700 rounded-full border border-slate-600 flex items-center justify-center text-xs font-bold">
-                    ME
-                </div>
+                <div class="w-8 h-8 bg-slate-700 rounded-full border border-slate-600 flex items-center justify-center text-xs font-bold">ME</div>
             </div>
         </div>
     </nav>
@@ -128,16 +112,12 @@
             </div>
 
             <div class="grid md:grid-cols-[1.5fr_1fr] gap-8">
-                
                 <!-- LEFT COLUMN: INPUTS -->
                 <div class="space-y-6">
-                    
                     <!-- 1. File Upload -->
                     <div>
                         <label class="block text-xs font-mono font-bold text-slate-500 uppercase tracking-widest mb-2">01 // Asset Payload</label>
                         <div id="drop-zone" class="h-48 border-2 border-dashed border-slate-700 hover:border-brand-orange/50 bg-slate-900/50 rounded-lg flex flex-col items-center justify-center cursor-pointer transition-all group relative overflow-hidden">
-                            
-                            <!-- Default State -->
                             <div id="drop-content-default" class="flex flex-col items-center z-10">
                                 <div class="p-3 bg-brand-surface rounded-full mb-3 group-hover:scale-110 transition-transform border border-brand-border">
                                     <i data-lucide="upload-cloud" class="w-6 h-6 text-slate-400 group-hover:text-brand-orange transition-colors"></i>
@@ -145,15 +125,11 @@
                                 <p class="text-sm font-medium text-slate-300">Drag file or click to browse</p>
                                 <p class="text-xs text-slate-500 mt-1 font-mono">MP4, PDF, ZIP (Max 2GB)</p>
                             </div>
-
-                            <!-- Uploaded State (Hidden) -->
                             <div id="drop-content-uploaded" class="hidden flex-col items-center z-10 w-full px-8">
                                 <i data-lucide="file-check" class="w-8 h-8 text-emerald-500 mb-2"></i>
                                 <p id="file-name" class="text-sm font-mono text-white truncate w-full text-center">filename.zip</p>
                                 <p class="text-xs text-emerald-500 mt-1">Upload Complete</p>
                             </div>
-
-                            <!-- Progress Bar (Hidden) -->
                             <div id="upload-progress" class="absolute bottom-0 left-0 h-1 bg-brand-orange transition-all duration-300 w-0"></div>
                         </div>
                         <input type="file" id="file-input" class="hidden">
@@ -177,21 +153,17 @@
                             <i data-lucide="mail" class="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-500 group-focus-within:text-brand-orange transition-colors"></i>
                             <input type="email" id="input-email" placeholder="client@company.com" class="w-full bg-brand-surface border border-brand-border rounded p-4 pl-11 text-sm text-white placeholder:text-slate-600 focus:outline-none focus:border-brand-orange focus:ring-1 focus:ring-brand-orange transition-all font-mono">
                         </div>
-                        <p class="text-[10px] text-slate-500 mt-2 ml-1">* If left blank, system generates a public link.</p>
                     </div>
-
                 </div>
 
-                <!-- RIGHT COLUMN: PRICING & ACTION -->
+                <!-- RIGHT COLUMN: PRICING -->
                 <div class="flex flex-col h-full">
                     <div class="bg-brand-surface border border-brand-border rounded-lg p-6 flex-1 flex flex-col">
                         <label class="block text-xs font-mono font-bold text-slate-500 uppercase tracking-widest mb-4">Valuation</label>
-                        
                         <div class="relative mb-8">
                             <span class="absolute left-4 top-1/2 -translate-y-1/2 text-slate-500 text-lg font-light">$</span>
                             <input type="number" id="input-price" placeholder="0.00" class="w-full bg-slate-900 border border-slate-700 rounded p-4 pl-8 text-3xl font-mono font-bold text-white placeholder:text-slate-700 focus:outline-none focus:border-brand-orange transition-all">
                         </div>
-
                         <div class="mt-auto">
                             <div class="bg-slate-900/50 rounded p-4 mb-4 border border-slate-800">
                                 <div class="flex justify-between text-xs text-slate-400 mb-2 font-mono">
@@ -203,7 +175,6 @@
                                     <span id="net-calc">$0.00</span>
                                 </div>
                             </div>
-
                             <button id="btn-generate" onclick="generateAsset()" class="w-full bg-brand-orange hover:bg-orange-500 text-brand-dark font-bold py-4 rounded shadow-lg shadow-orange-900/20 transition-all active:scale-[0.98] flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed">
                                 <i data-lucide="zap" class="w-5 h-5"></i>
                                 Generate Asset Link
@@ -211,16 +182,13 @@
                         </div>
                     </div>
                 </div>
-
             </div>
         </section>
 
         <!-- OUTPUT MODAL (Hidden) -->
         <div id="modal-success" class="fixed inset-0 bg-brand-dark/90 backdrop-blur-sm z-[100] hidden items-center justify-center p-4">
             <div class="bg-brand-surface border border-slate-600 rounded-lg shadow-2xl max-w-md w-full p-8 relative overflow-hidden">
-                <!-- Orange highlight bar -->
                 <div class="absolute top-0 left-0 w-full h-1 bg-brand-orange"></div>
-                
                 <div class="text-center mb-6">
                     <div class="w-16 h-16 bg-brand-orange/10 rounded-full flex items-center justify-center mx-auto mb-4 border border-brand-orange/20">
                         <i data-lucide="check" class="w-8 h-8 text-brand-orange"></i>
@@ -228,45 +196,39 @@
                     <h3 class="text-xl font-bold text-white">Asset Deployed</h3>
                     <p class="text-sm text-slate-400 mt-1">Ready for transaction.</p>
                 </div>
-
                 <div class="bg-slate-900 border border-slate-700 rounded p-4 mb-6">
                     <p class="text-[10px] text-slate-500 uppercase font-mono mb-2">Secure Link</p>
                     <div class="flex items-center justify-between gap-2">
                         <code class="text-emerald-400 font-mono text-sm truncate" id="generated-link">quick.as/x9z-22</code>
-                        <button class="text-slate-400 hover:text-white transition-colors">
-                            <i data-lucide="copy" class="w-4 h-4"></i>
-                        </button>
+                        <button class="text-slate-400 hover:text-white transition-colors"><i data-lucide="copy" class="w-4 h-4"></i></button>
                     </div>
                 </div>
-
                 <div id="email-confirm-msg" class="hidden bg-emerald-900/20 border border-emerald-500/20 rounded p-3 mb-6 flex items-start gap-3">
                     <i data-lucide="mail-check" class="w-4 h-4 text-emerald-500 mt-0.5"></i>
-                    <div class="text-xs text-emerald-400">
-                        <span class="font-bold">Sent:</span> Invoice emailed directly to <span id="confirm-email-addr" class="underline"></span>
-                    </div>
+                    <div class="text-xs text-emerald-400"><span class="font-bold">Sent:</span> Invoice emailed directly to <span id="confirm-email-addr" class="underline"></span></div>
                 </div>
-
-                <button onclick="resetForm()" class="w-full bg-slate-700 hover:bg-slate-600 text-white font-bold py-3 rounded transition-colors text-sm">
-                    Create New Asset
-                </button>
+                <button onclick="resetForm()" class="w-full bg-slate-700 hover:bg-slate-600 text-white font-bold py-3 rounded transition-colors text-sm">Create New Asset</button>
             </div>
         </div>
-
     </main>
 
-    <!-- LOGIC LAYER -->
+    <!-- ============================== -->
+    <!--       YOUR JAVASCRIPT          -->
+    <!-- ============================== -->
     <script>
+        // --- 0. CONFIGURATION ---
+        // 🛑 PASTE YOUR "ca_" KEY HERE. 
+        // NOTE: The Secrets you saved in GitHub Settings are INVISIBLE to this file.
+        // You MUST paste the actual key string below for the button to work.
+        const STRIPE_CLIENT_ID = 'ca_TTJhaOfvv4bclxzQigX2cG6X1kUJyjTj'; 
+        
+        const REDIRECT_URI = 'https://mfackrell.github.io/quickasset/';
+
         // Init Icons
         lucide.createIcons();
 
         // State
-        let state = {
-            stripeConnected: false,
-            fileUploaded: false,
-            price: 0,
-            title: '',
-            email: ''
-        };
+        let state = { stripeConnected: false, fileUploaded: false, price: 0, title: '', email: '' };
 
         // Elements
         const stripeBtn = document.getElementById('btn-connect-stripe');
@@ -279,65 +241,48 @@
         const titleInput = document.getElementById('input-title');
         const emailInput = document.getElementById('input-email');
         
-        // --- 1. STRIPE SIMULATION ---
+        // --- 1. STRIPE CONNECT LOGIC ---
         function handleStripeConnect() {
             stripeBtn.disabled = true;
-            stripeBtn.innerHTML = `<i data-lucide="loader-2" class="w-4 h-4 animate-spin"></i> Connecting...`;
+            stripeBtn.innerHTML = `<i data-lucide="loader-2" class="w-4 h-4 animate-spin"></i> Redirecting...`;
             lucide.createIcons();
+            // Redirect to Stripe
+            const stripeUrl = `https://connect.stripe.com/oauth/authorize?response_type=code&client_id=${STRIPE_CLIENT_ID}&scope=read_write&redirect_uri=${REDIRECT_URI}`;
+            window.location.href = stripeUrl;
+        }
 
-            // Fake API Delay
-            setTimeout(() => {
+        // --- CHECK FOR RETURN FROM STRIPE ---
+        window.onload = function() {
+            const urlParams = new URLSearchParams(window.location.search);
+            if (urlParams.has('code')) {
                 state.stripeConnected = true;
-                
-                // UI Updates
                 stripeBtn.classList.add('hidden');
                 stripeBadge.classList.remove('hidden');
                 stripeBadge.classList.add('flex');
                 stripeText.textContent = "Payouts enabled via Stripe Express.";
                 stripeText.classList.add('text-emerald-500');
-                
-                // Unlock Panel
                 assetPanel.classList.remove('opacity-50', 'pointer-events-none');
-            }, 1500);
-        }
+            }
+        };
 
         // --- 2. FILE UPLOAD LOGIC ---
         dropZone.addEventListener('click', () => fileInput.click());
-        
-        dropZone.addEventListener('dragover', (e) => {
-            e.preventDefault();
-            dropZone.classList.add('border-brand-orange', 'bg-slate-800');
-        });
-
-        dropZone.addEventListener('dragleave', () => {
-            dropZone.classList.remove('border-brand-orange', 'bg-slate-800');
-        });
-
+        dropZone.addEventListener('dragover', (e) => { e.preventDefault(); dropZone.classList.add('border-brand-orange', 'bg-slate-800'); });
+        dropZone.addEventListener('dragleave', () => { dropZone.classList.remove('border-brand-orange', 'bg-slate-800'); });
         dropZone.addEventListener('drop', (e) => {
             e.preventDefault();
             dropZone.classList.remove('border-brand-orange', 'bg-slate-800');
             if (e.dataTransfer.files.length) handleFile(e.dataTransfer.files[0]);
         });
-
-        fileInput.addEventListener('change', (e) => {
-            if (e.target.files.length) handleFile(e.target.files[0]);
-        });
+        fileInput.addEventListener('change', (e) => { if (e.target.files.length) handleFile(e.target.files[0]); });
 
         function handleFile(file) {
-            // Simulate Upload Progress
             const progressBar = document.getElementById('upload-progress');
             progressBar.style.width = '10%';
-            
-            // Interval to fake progress
             let width = 10;
             const interval = setInterval(() => {
-                if (width >= 100) {
-                    clearInterval(interval);
-                    finishUpload(file);
-                } else {
-                    width += 10;
-                    progressBar.style.width = width + '%';
-                }
+                if (width >= 100) { clearInterval(interval); finishUpload(file); } 
+                else { width += 10; progressBar.style.width = width + '%'; }
             }, 100);
         }
 
@@ -356,34 +301,18 @@
             state.price = val;
             const fee = val * 0.05;
             const net = val - fee;
-            
             document.getElementById('fee-calc').textContent = '$' + fee.toFixed(2);
             document.getElementById('net-calc').textContent = '$' + net.toFixed(2);
         });
 
-        // --- 4. GENERATE / SUBMIT ---
+        // --- 4. GENERATE LOGIC ---
         function generateAsset() {
             state.title = titleInput.value;
             state.email = emailInput.value;
+            if (!state.fileUploaded) { dropZone.classList.add('border-red-500'); setTimeout(() => dropZone.classList.remove('border-red-500'), 500); return; }
+            if (!state.title) { titleInput.classList.add('border-red-500'); titleInput.focus(); return; }
+            if (state.price <= 0) { priceInput.classList.add('border-red-500'); priceInput.focus(); return; }
 
-            // Validation
-            if (!state.fileUploaded) {
-                dropZone.classList.add('border-red-500');
-                setTimeout(() => dropZone.classList.remove('border-red-500'), 500);
-                return;
-            }
-            if (!state.title) {
-                titleInput.classList.add('border-red-500');
-                titleInput.focus();
-                return;
-            }
-            if (state.price <= 0) {
-                priceInput.classList.add('border-red-500');
-                priceInput.focus();
-                return;
-            }
-
-            // Loading State
             const btn = document.getElementById('btn-generate');
             btn.innerHTML = `<i data-lucide="loader-2" class="w-5 h-5 animate-spin"></i> Encrypting...`;
             lucide.createIcons();
@@ -398,43 +327,26 @@
         function showSuccess() {
             const modal = document.getElementById('modal-success');
             const linkCode = document.getElementById('generated-link');
-            
-            // Generate Fake Link
             const randomId = Math.random().toString(36).substring(7);
             linkCode.textContent = `quick.as/${randomId}`;
-
-            // Handle Recipient Logic
             const emailMsg = document.getElementById('email-confirm-msg');
-            if (state.email) {
-                emailMsg.classList.remove('hidden');
-                document.getElementById('confirm-email-addr').textContent = state.email;
-            } else {
-                emailMsg.classList.add('hidden');
-            }
-
-            modal.classList.remove('hidden');
-            modal.classList.add('flex');
+            if (state.email) { emailMsg.classList.remove('hidden'); document.getElementById('confirm-email-addr').textContent = state.email; } 
+            else { emailMsg.classList.add('hidden'); }
+            modal.classList.remove('hidden'); modal.classList.add('flex');
         }
 
         function resetForm() {
             document.getElementById('modal-success').classList.add('hidden');
             document.getElementById('modal-success').classList.remove('flex');
-            
-            // Reset Inputs
-            titleInput.value = '';
-            priceInput.value = '';
-            emailInput.value = '';
+            titleInput.value = ''; priceInput.value = ''; emailInput.value = '';
             document.getElementById('fee-calc').textContent = '$0.00';
             document.getElementById('net-calc').textContent = '$0.00';
-            
-            // Reset Dropzone
             state.fileUploaded = false;
             document.getElementById('upload-progress').style.width = '0';
             document.getElementById('drop-content-default').classList.remove('hidden');
             document.getElementById('drop-content-uploaded').classList.add('hidden');
             document.getElementById('drop-content-uploaded').classList.remove('flex');
         }
-
     </script>
 </body>
 </html>
