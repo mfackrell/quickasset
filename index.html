@@ -221,8 +221,8 @@
         // You MUST paste the actual key string below for the button to work.
         const STRIPE_CLIENT_ID = 'ca_TTJhaOfvv4bclxzQigX2cG6X1kUJyjTj'; 
         
-        // 🛑 Using your Netlify URL
-        const REDIRECT_URI = 'https://lighthearted-puppy-4d9a1d.netlify.app/';
+        // 🛑 Using your VERCEL URL
+        const REDIRECT_URI = 'https://quickasset.vercel.app/';
 
         // Safety check for Lucide
         if (typeof lucide !== 'undefined') {
@@ -256,7 +256,7 @@
             window.location.href = stripeUrl;
         }
 
-        // --- 2. HANDLE RETURN & EXCHANGE TOKEN (Netlify Backend) ---
+        // --- 2. HANDLE RETURN & EXCHANGE TOKEN (VERCEL Backend) ---
         window.onload = async function() {
             // Re-run icons just in case they missed the first pass
             if (typeof lucide !== 'undefined') lucide.createIcons();
@@ -275,7 +275,7 @@
                 if (typeof lucide !== 'undefined') lucide.createIcons();
 
                 try {
-                    // Call our new Netlify Backend
+                    // Call our new VERCEL Backend
                     const response = await fetch('/api/exchange-token', {
                         method: 'POST',
                         body: JSON.stringify({ code: tempCode })
