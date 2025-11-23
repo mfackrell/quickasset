@@ -18,7 +18,6 @@ export default async function handler(req, res) {
         const priceInCents = Math.round(price * 100);
         
         // Calculate your 5% platform fee manually
-        // (Stripe requires an integer for the fee amount, so we round it)
         const platformFee = Math.round(priceInCents * 0.05);
 
         // 2. Create the Price on the SELLER'S account
@@ -33,16 +32,13 @@ export default async function handler(req, res) {
         });
 
         // 3. Create the Payment Link
-        // FIXED: For one-time payments, we must use 'payment_intent_data' 
-        // and 'application_fee_amount' instead of 'application_fee_percent'.
+        // CORRECTION: application_fee_amount must be at the TOP LEVEL for Payment Links
         const paymentLink = await stripe.paymentLinks.create({
             line_items: [{
                 price: priceRecord.id,
                 quantity: 1,
             }],
-            payment_intent_data: {
-                application_fee_amount: platformFee, // We send the calculated 5% here
-            },
+            application_fee_amount: platformFee, // <--- Correct placement (Top Level)
         }, {
             stripeAccount: accountId,
         });
@@ -51,7 +47,7 @@ export default async function handler(req, res) {
         return res.status(200).json({ url: paymentLink.url });
 
     } catch (error) {
-        console.error(error);
+        console.error("Stripe Error:", error);
         return res.status(500).json({ error: error.message });
     }
 }
