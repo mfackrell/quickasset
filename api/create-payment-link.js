@@ -14,25 +14,35 @@ export default async function handler(req, res) {
             return res.status(400).json({ error: 'No connected account found' });
         }
 
+        // Convert price to cents (Stripe always uses cents)
+        const priceInCents = Math.round(price * 100);
+        
+        // Calculate your 5% platform fee manually
+        // (Stripe requires an integer for the fee amount, so we round it)
+        const platformFee = Math.round(priceInCents * 0.05);
+
         // 2. Create the Price on the SELLER'S account
-        // We use {stripeAccount: accountId} to tell Stripe "Do this on their behalf"
         const priceRecord = await stripe.prices.create({
             currency: 'usd',
-            unit_amount: Math.round(price * 100), // Convert dollars to cents
+            unit_amount: priceInCents,
             product_data: {
                 name: title,
             },
         }, {
-            stripeAccount: accountId, // <--- THE MAGIC HEADER
+            stripeAccount: accountId, 
         });
 
-        // 3. Create the Payment Link with your 5% Fee
+        // 3. Create the Payment Link
+        // FIXED: For one-time payments, we must use 'payment_intent_data' 
+        // and 'application_fee_amount' instead of 'application_fee_percent'.
         const paymentLink = await stripe.paymentLinks.create({
             line_items: [{
                 price: priceRecord.id,
                 quantity: 1,
             }],
-            application_fee_percent: 5, // You keep 5% of every sale
+            payment_intent_data: {
+                application_fee_amount: platformFee, // We send the calculated 5% here
+            },
         }, {
             stripeAccount: accountId,
         });
