@@ -10,7 +10,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
     
-    <!-- Icons -->
+    <!-- Icons (Crucial for the "lucide is not defined" error) -->
     <script src="https://unpkg.com/lucide@latest"></script>
     
     <!-- Tailwind -->
@@ -218,17 +218,21 @@
     <script>
         // --- 0. CONFIGURATION ---
         // 🛑 PASTE YOUR "ca_" KEY HERE. 
-        // NOTE: The Secrets you saved in GitHub Settings are INVISIBLE to this file.
         // You MUST paste the actual key string below for the button to work.
         const STRIPE_CLIENT_ID = 'ca_TTJhaOfvv4bclxzQigX2cG6X1kUJyjTj'; 
         
-        const REDIRECT_URI = 'https://mfackrell.github.io/quickasset/';
+        // 🛑 Using your Netlify URL
+        const REDIRECT_URI = 'https://lighthearted-puppy-4d9a1d.netlify.app/';
 
-        // Init Icons
-        lucide.createIcons();
+        // Safety check for Lucide
+        if (typeof lucide !== 'undefined') {
+            lucide.createIcons();
+        } else {
+            console.warn('Lucide icons not loaded yet, waiting for window load.');
+        }
 
         // State
-        let state = { stripeConnected: false, fileUploaded: false, price: 0, title: '', email: '' };
+        let state = { stripeConnected: false, stripeAccountId: null, fileUploaded: false, price: 0, title: '', email: '' };
 
         // Elements
         const stripeBtn = document.getElementById('btn-connect-stripe');
@@ -245,27 +249,70 @@
         function handleStripeConnect() {
             stripeBtn.disabled = true;
             stripeBtn.innerHTML = `<i data-lucide="loader-2" class="w-4 h-4 animate-spin"></i> Redirecting...`;
-            lucide.createIcons();
+            if (typeof lucide !== 'undefined') lucide.createIcons();
+            
             // Redirect to Stripe
             const stripeUrl = `https://connect.stripe.com/oauth/authorize?response_type=code&client_id=${STRIPE_CLIENT_ID}&scope=read_write&redirect_uri=${REDIRECT_URI}`;
             window.location.href = stripeUrl;
         }
 
-        // --- CHECK FOR RETURN FROM STRIPE ---
-        window.onload = function() {
+        // --- 2. HANDLE RETURN & EXCHANGE TOKEN (Netlify Backend) ---
+        window.onload = async function() {
+            // Re-run icons just in case they missed the first pass
+            if (typeof lucide !== 'undefined') lucide.createIcons();
+
             const urlParams = new URLSearchParams(window.location.search);
+            
+            // If we have a code, we need to trade it!
             if (urlParams.has('code')) {
-                state.stripeConnected = true;
+                const tempCode = urlParams.get('code');
+                
+                // Show loading state immediately
                 stripeBtn.classList.add('hidden');
                 stripeBadge.classList.remove('hidden');
                 stripeBadge.classList.add('flex');
-                stripeText.textContent = "Payouts enabled via Stripe Express.";
-                stripeText.classList.add('text-emerald-500');
-                assetPanel.classList.remove('opacity-50', 'pointer-events-none');
+                stripeBadge.innerHTML = `<i data-lucide="loader-2" class="w-4 h-4 animate-spin"></i> Verifying...`;
+                if (typeof lucide !== 'undefined') lucide.createIcons();
+
+                try {
+                    // Call our new Netlify Backend
+                    const response = await fetch('/.netlify/functions/exchange-token', {
+                        method: 'POST',
+                        body: JSON.stringify({ code: tempCode })
+                    });
+                    
+                    const data = await response.json();
+
+                    if (data.stripe_user_id) {
+                        // SUCCESS! We have the permanent ID
+                        console.log("Connected Account ID:", data.stripe_user_id);
+                        state.stripeConnected = true;
+                        state.stripeAccountId = data.stripe_user_id;
+
+                        // Update UI
+                        stripeBadge.innerHTML = `<i data-lucide="check-circle" class="w-4 h-4"></i> Account Active`;
+                        if (typeof lucide !== 'undefined') lucide.createIcons();
+                        
+                        stripeText.textContent = "Payouts enabled via Stripe Express.";
+                        stripeText.classList.add('text-emerald-500');
+                        assetPanel.classList.remove('opacity-50', 'pointer-events-none');
+                    } else {
+                        alert('Connection failed: ' + JSON.stringify(data));
+                        // Revert UI on failure
+                        stripeBtn.classList.remove('hidden');
+                        stripeBadge.classList.add('hidden');
+                    }
+                } catch (err) {
+                    console.error(err);
+                    alert('Error connecting to backend.');
+                    // Revert UI on failure
+                    stripeBtn.classList.remove('hidden');
+                    stripeBadge.classList.add('hidden');
+                }
             }
         };
 
-        // --- 2. FILE UPLOAD LOGIC ---
+        // --- 3. FILE UPLOAD LOGIC ---
         dropZone.addEventListener('click', () => fileInput.click());
         dropZone.addEventListener('dragover', (e) => { e.preventDefault(); dropZone.classList.add('border-brand-orange', 'bg-slate-800'); });
         dropZone.addEventListener('dragleave', () => { dropZone.classList.remove('border-brand-orange', 'bg-slate-800'); });
@@ -293,9 +340,10 @@
             uploadedState.classList.add('flex');
             document.getElementById('file-name').textContent = file.name;
             state.fileUploaded = true;
+            if (typeof lucide !== 'undefined') lucide.createIcons();
         }
 
-        // --- 3. CALCULATOR LOGIC ---
+        // --- 4. CALCULATOR LOGIC ---
         priceInput.addEventListener('input', (e) => {
             const val = parseFloat(e.target.value) || 0;
             state.price = val;
@@ -305,7 +353,7 @@
             document.getElementById('net-calc').textContent = '$' + net.toFixed(2);
         });
 
-        // --- 4. GENERATE LOGIC ---
+        // --- 5. GENERATE LOGIC ---
         function generateAsset() {
             state.title = titleInput.value;
             state.email = emailInput.value;
@@ -315,12 +363,12 @@
 
             const btn = document.getElementById('btn-generate');
             btn.innerHTML = `<i data-lucide="loader-2" class="w-5 h-5 animate-spin"></i> Encrypting...`;
-            lucide.createIcons();
+            if (typeof lucide !== 'undefined') lucide.createIcons();
             
             setTimeout(() => {
                 showSuccess();
                 btn.innerHTML = `<i data-lucide="zap" class="w-5 h-5"></i> Generate Asset Link`;
-                lucide.createIcons();
+                if (typeof lucide !== 'undefined') lucide.createIcons();
             }, 1500);
         }
 
@@ -333,6 +381,7 @@
             if (state.email) { emailMsg.classList.remove('hidden'); document.getElementById('confirm-email-addr').textContent = state.email; } 
             else { emailMsg.classList.add('hidden'); }
             modal.classList.remove('hidden'); modal.classList.add('flex');
+            if (typeof lucide !== 'undefined') lucide.createIcons();
         }
 
         function resetForm() {
