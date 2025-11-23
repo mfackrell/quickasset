@@ -199,7 +199,10 @@
                 <div class="bg-slate-900 border border-slate-700 rounded p-4 mb-6">
                     <p class="text-[10px] text-slate-500 uppercase font-mono mb-2">Secure Link</p>
                     <div class="flex items-center justify-between gap-2">
-                    <a id="generated-link" href="#" target="_blank" class="text-emerald-400 font-mono text-sm truncate hover:underline hover:text-emerald-300 transition-colors">...</a>                        <button class="text-slate-400 hover:text-white transition-colors"><i data-lucide="copy" class="w-4 h-4"></i></button>
+                    <a id="generated-link" href="#" target="_blank" class="text-emerald-400 font-mono text-sm truncate hover:underline hover:text-emerald-300 transition-colors">...</a>                        
+                    <button id="btn-copy" class="text-slate-400 hover:text-white transition-colors">
+                        <i data-lucide="copy" class="w-4 h-4"></i>
+                    </button>
                     </div>
                 </div>
                 <div id="email-confirm-msg" class="hidden bg-emerald-900/20 border border-emerald-500/20 rounded p-3 mb-6 flex items-start gap-3">
@@ -414,7 +417,21 @@
             modal.classList.remove('hidden'); 
             modal.classList.add('flex');
             if (typeof lucide !== 'undefined') lucide.createIcons();
+
+            const copyBtn = document.getElementById('btn-copy');
+            copyBtn.addEventListener('click', () => {
+                const link = document.getElementById('generated-link').textContent;
+                navigator.clipboard.writeText(link).then(() => {
+                    copyBtn.innerHTML = `<i data-lucide="check" class="w-4 h-4 text-emerald-400"></i>`;
+                    if (typeof lucide !== 'undefined') lucide.createIcons();
+                    setTimeout(() => {
+                        copyBtn.innerHTML = `<i data-lucide="copy" class="w-4 h-4"></i>`;
+                        if (typeof lucide !== 'undefined') lucide.createIcons();
+                    }, 1200);
+                });
+            });
         }
+
         
 
         function resetForm() {
