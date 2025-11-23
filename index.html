@@ -199,8 +199,7 @@
                 <div class="bg-slate-900 border border-slate-700 rounded p-4 mb-6">
                     <p class="text-[10px] text-slate-500 uppercase font-mono mb-2">Secure Link</p>
                     <div class="flex items-center justify-between gap-2">
-                        <code class="text-emerald-400 font-mono text-sm truncate" id="generated-link">quick.as/x9z-22</code>
-                        <button class="text-slate-400 hover:text-white transition-colors"><i data-lucide="copy" class="w-4 h-4"></i></button>
+                    <a id="generated-link" href="#" target="_blank" class="text-emerald-400 font-mono text-sm truncate hover:underline hover:text-emerald-300 transition-colors">...</a>                        <button class="text-slate-400 hover:text-white transition-colors"><i data-lucide="copy" class="w-4 h-4"></i></button>
                     </div>
                 </div>
                 <div id="email-confirm-msg" class="hidden bg-emerald-900/20 border border-emerald-500/20 rounded p-3 mb-6 flex items-start gap-3">
@@ -354,35 +353,70 @@
         });
 
         // --- 5. GENERATE LOGIC ---
-        function generateAsset() {
-            state.title = titleInput.value;
+        async function generateAsset() {
+            state.title = titleInput.value; 
             state.email = emailInput.value;
+            
+            // Validation
             if (!state.fileUploaded) { dropZone.classList.add('border-red-500'); setTimeout(() => dropZone.classList.remove('border-red-500'), 500); return; }
             if (!state.title) { titleInput.classList.add('border-red-500'); titleInput.focus(); return; }
             if (state.price <= 0) { priceInput.classList.add('border-red-500'); priceInput.focus(); return; }
+            
+            // Check if user is connected
+            if (!state.stripeAccountId) { alert("Error: No account ID found. Please reconnect Stripe."); return; }
 
             const btn = document.getElementById('btn-generate');
-            btn.innerHTML = `<i data-lucide="loader-2" class="w-5 h-5 animate-spin"></i> Encrypting...`;
+            btn.innerHTML = `<i data-lucide="loader-2" class="w-5 h-5 animate-spin"></i> Generating Link...`;
             if (typeof lucide !== 'undefined') lucide.createIcons();
             
-            setTimeout(() => {
-                showSuccess();
-                btn.innerHTML = `<i data-lucide="zap" class="w-5 h-5"></i> Generate Asset Link`;
-                if (typeof lucide !== 'undefined') lucide.createIcons();
-            }, 1500);
-        }
+            try {
+                // Call the Vercel Backend
+                const response = await fetch('/api/create-payment-link', {
+                    method: 'POST',
+                    body: JSON.stringify({
+                        title: state.title,
+                        price: state.price,
+                        accountId: state.stripeAccountId
+                    })
+                });
 
-        function showSuccess() {
-            const modal = document.getElementById('modal-success');
-            const linkCode = document.getElementById('generated-link');
-            const randomId = Math.random().toString(36).substring(7);
-            linkCode.textContent = `quick.as/${randomId}`;
-            const emailMsg = document.getElementById('email-confirm-msg');
-            if (state.email) { emailMsg.classList.remove('hidden'); document.getElementById('confirm-email-addr').textContent = state.email; } 
-            else { emailMsg.classList.add('hidden'); }
-            modal.classList.remove('hidden'); modal.classList.add('flex');
+                const data = await response.json();
+                
+                if (data.url) {
+                    showSuccess(data.url);
+                } else {
+                    alert("Error creating link: " + (data.error || "Unknown error"));
+                }
+            } catch (error) {
+                console.error(error);
+                alert("Failed to generate link.");
+            }
+            
+            // Reset button
+            btn.innerHTML = `<i data-lucide="zap" class="w-5 h-5"></i> Generate Asset Link`;
             if (typeof lucide !== 'undefined') lucide.createIcons();
         }
+        }
+        function showSuccess(url) {
+            const modal = document.getElementById('modal-success');
+            const linkCode = document.getElementById('generated-link');
+            
+            linkCode.textContent = url;
+            linkCode.href = url; // Make the link clickable
+
+            const emailMsg = document.getElementById('email-confirm-msg');
+            if (state.email) { 
+                emailMsg.classList.remove('hidden'); 
+                document.getElementById('confirm-email-addr').textContent = state.email; 
+            } else { 
+                emailMsg.classList.add('hidden'); 
+            }
+            
+            modal.classList.remove('hidden'); 
+            modal.classList.add('flex');
+            if (typeof lucide !== 'undefined') lucide.createIcons();
+        }
+        
 
         function resetForm() {
             document.getElementById('modal-success').classList.add('hidden');
