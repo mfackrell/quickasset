@@ -276,7 +276,7 @@
 
                 try {
                     // Call our new Netlify Backend
-                    const response = await fetch('/.netlify/functions/exchange-token', {
+                    const response = await fetch('/api/exchange-token', {
                         method: 'POST',
                         body: JSON.stringify({ code: tempCode })
                     });
