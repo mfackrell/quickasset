@@ -23,13 +23,22 @@ export default async function handler(req, res) {
             product_data: { name: title },
         }, { stripeAccount: accountId });
 
-        // 3. Create Payment Link with METADATA (The Handoff)
-        // We hide the downloadUrl here so the Webhook can find it later
+        // 3. Create Payment Link with REDIRECT & METADATA
         const paymentLink = await stripe.paymentLinks.create({
             line_items: [{ price: priceRecord.id, quantity: 1 }],
             application_fee_amount: platformFee,
+            
+            // --- ADDED: AUTO-REDIRECT AFTER PAYMENT ---
+            after_completion: {
+                type: 'redirect',
+                redirect: {
+                    url: downloadUrl 
+                }
+            },
+
+            // Metadata for the Webhook (to send Email #2)
             metadata: {
-                downloadUrl: downloadUrl, // <--- SAVED FOR LATER
+                downloadUrl: downloadUrl, 
                 buyerEmail: email,
                 assetTitle: title
             }
