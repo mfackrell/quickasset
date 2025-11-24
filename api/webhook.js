@@ -6,7 +6,7 @@ const stripe = Stripe(process.env.STRIPE_SECRET_KEY);
 const webhookSecret = process.env.STRIPE_WEBHOOK_SECRET; 
 
 export const config = {
-    api: { bodyParser: false }, // Necessary for Stripe signature verification
+    api: { bodyParser: false }, 
 };
 
 export default async function handler(req, res) {
@@ -27,17 +27,24 @@ export default async function handler(req, res) {
         return res.status(400).send(`Webhook Error: ${err.message}`);
     }
 
-    // HANDLE SUCCESSFUL PAYMENT
     if (event.type === 'checkout.session.completed') {
         const session = event.data.object;
+        
+        // CRITICAL FIX: Identify WHO sold the item
+        // If this event came from a connected account, Stripe tells us here:
+        const connectedAccountId = event.account; 
 
         if (session.payment_link) {
             try {
-                // Retrieve the metadata we hid in Step 1
-                const paymentLink = await stripe.paymentLinks.retrieve(session.payment_link);
+                // We must tell Stripe: "Look for this link inside THIS user's account"
+                const retrieveOptions = connectedAccountId ? { stripeAccount: connectedAccountId } : {};
+
+                const paymentLink = await stripe.paymentLinks.retrieve(
+                    session.payment_link,
+                    retrieveOptions // <--- THE MISSING KEY
+                );
+
                 const { downloadUrl, assetTitle } = paymentLink.metadata;
-                
-                // Use the email they typed into Stripe during checkout
                 const customerEmail = session.customer_details?.email;
 
                 if (downloadUrl && customerEmail) {
@@ -51,7 +58,6 @@ export default async function handler(req, res) {
                         }
                     });
 
-                    // SEND EMAIL #2 (The Delivery)
                     await transporter.sendMail({
                         from: `"QuickAsset" <${process.env.EMAIL_USER}>`,
                         to: customerEmail,
@@ -76,6 +82,8 @@ export default async function handler(req, res) {
                 }
             } catch (err) {
                 console.error('Error sending fulfillment:', err);
+                // Return 200 anyway so Stripe stops retrying if it's a logic error
+                return res.status(200).json({ error: err.message });
             }
         }
     }
