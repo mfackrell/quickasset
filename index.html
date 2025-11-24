@@ -379,7 +379,8 @@
                     body: JSON.stringify({
                         title: state.title,
                         price: state.price,
-                        accountId: state.stripeAccountId
+                        accountId: state.stripeAccountId,
+                        email: state.email
                     })
                 });
 
@@ -409,7 +410,8 @@
             const emailMsg = document.getElementById('email-confirm-msg');
             if (state.email) { 
                 emailMsg.classList.remove('hidden'); 
-                document.getElementById('confirm-email-addr').textContent = state.email; 
+                document.getElementById('confirm-email-addr').textContent = state.email;
+                document.getElementById('email-confirm-msg').classList.remove('hidden');
             } else { 
                 emailMsg.classList.add('hidden'); 
             }
