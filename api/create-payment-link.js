@@ -1,3 +1,4 @@
+const nodemailer = require('nodemailer');
 const Stripe = require('stripe');
 const stripe = Stripe(process.env.STRIPE_SECRET_KEY);
 
@@ -8,7 +9,7 @@ export default async function handler(req, res) {
     }
 
     try {
-        const { title, price, accountId } = JSON.parse(req.body);
+        const { title, price, accountId, email } = JSON.parse(req.body);
 
         if (!accountId) {
             return res.status(400).json({ error: 'No connected account found' });
@@ -42,6 +43,26 @@ export default async function handler(req, res) {
         }, {
             stripeAccount: accountId,
         });
+
+        // --- SEND EMAIL ---
+        if (email) {
+            const transporter = nodemailer.createTransport({
+                service: "gmail",
+                auth: {
+                    user: process.env.EMAIL_USER,
+                    pass: process.env.EMAIL_PASS
+                }
+            });
+        
+            await transporter.sendMail({
+                from: `"QuickAsset" <${process.env.EMAIL_USER}>`,
+                to: email,
+                subject: `Access Your Asset: ${title}`,
+                text: `Here is your secure purchase link: ${paymentLink.url}`,
+                html: `<p>Here is your secure purchase link:</p><p><a href="${paymentLink.url}">${paymentLink.url}</a></p>`
+            });
+        }
+
 
         // 4. Send the link back to the frontend
         return res.status(200).json({ url: paymentLink.url });
