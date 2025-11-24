@@ -1,6 +1,7 @@
 const { handleUpload } = require('@vercel/blob/client');
 
-export default async function handler(request, response) {
+// CORRECT SYNTAX for your project:
+module.exports = async function handler(request, response) {
   const body = await request.json();
 
   try {
@@ -8,7 +9,6 @@ export default async function handler(request, response) {
       body,
       request,
       onBeforeGenerateToken: async (pathname) => {
-        // You can add security checks here if you want
         return {
           tokenPayload: JSON.stringify({
             // optional payload
@@ -16,7 +16,6 @@ export default async function handler(request, response) {
         };
       },
       onUploadCompleted: async ({ blob, tokenPayload }) => {
-        // This runs when the upload finishes
         console.log('blob uploaded', blob.url);
       },
     });
