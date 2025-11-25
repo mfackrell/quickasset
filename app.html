@@ -13,45 +13,50 @@
     
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
-        tailwind.config = {
-            theme: {
-                fontFamily: {
-                    sans: ['Inter', 'sans-serif'],
-                    mono: ['JetBrains Mono', 'monospace'],
-                },
-                extend: {
-                    colors: {
-                        brand: {
-                            orange: '#F97316',
-                            dark: '#0F172A', 
-                            surface: '#1E293B',
-                            border: '#334155',
-                        }
-                    }
-                }
+      tailwind.config = {
+        theme: {
+          fontFamily: {
+            sans: ['system-ui', '-apple-system', 'BlinkMacSystemFont', '"SF Pro Text"', 'Inter', '"Segoe UI"', 'sans-serif'],
+            mono: ['JetBrains Mono', 'monospace'],
+          },
+          extend: {
+            colors: {
+              slate: { 750: '#2d3748', 850: '#1a202c', 900: '#0f172a', 950: '#020617' },
+              brand: {
+                orange: '#38bdf8',
+                dark: '#020617',
+                surface: '#0f172a',
+                border: '#1f2937',
+              }
+            },
+            backgroundImage: {
+              'btn-gradient': 'radial-gradient(circle at 0 0, #4ade80 0, #38bdf8 40%, #2563eb 80%)',
+              'brand-gradient': 'conic-gradient(from 210deg, #38bdf8, #4ade80, #a855f7, #38bdf8)',
             }
+          }
         }
+      }
     </script>
     
     <style>
-        body { -webkit-font-smoothing: antialiased; }
-        .bg-grid {
-            background-color: #0F172A;
-            background-size: 40px 40px;
-            background-image: linear-gradient(to right, rgba(255, 255, 255, 0.03) 1px, transparent 1px),
-                              linear-gradient(to bottom, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+        body {
+          margin: 0;
+          font-family: system-ui, -apple-system, BlinkMacSystemFont, "SF Pro Text", "Inter", "Segoe UI", sans-serif;
+          background: #020617;
+          color: #e5e7eb;
+          line-height: 1.6;
+          -webkit-font-smoothing: antialiased;
         }
-        ::-webkit-scrollbar { width: 8px; }
-        ::-webkit-scrollbar-track { background: #0F172A; }
-        ::-webkit-scrollbar-thumb { background: #334155; border-radius: 4px; }
-        ::-webkit-scrollbar-thumb:hover { background: #475569; }
-        input:-webkit-autofill, input:-webkit-autofill:hover, input:-webkit-autofill:focus, input:-webkit-autofill:active{
-            -webkit-box-shadow: 0 0 0 30px #1E293B inset !important;
-            -webkit-text-fill-color: white !important;
+        
+        .bg-grid {
+          background:
+            radial-gradient(circle at top left, rgba(56,189,248,0.14) 0, transparent 40%),
+            radial-gradient(circle at bottom right, rgba(94,234,212,0.1) 0, transparent 40%),
+            linear-gradient(to bottom, #020617 0, #020617 60%, #020617 100%);
         }
     </style>
 </head>
-<body class="bg-grid text-slate-50 min-h-screen flex flex-col">
+<body class="bg-grid text-slate-100 min-h-screen flex flex-col">
 
     <nav class="w-full border-b border-brand-border bg-brand-dark/90 backdrop-blur-md sticky top-0 z-50">
         <div class="max-w-4xl mx-auto px-6 h-16 flex items-center justify-between">
@@ -72,7 +77,7 @@
     <main class="flex-1 w-full max-w-4xl mx-auto p-6 md:p-12">
         
         <section class="mb-12">
-            <div class="bg-brand-surface border border-brand-border rounded-lg p-6 flex flex-col md:flex-row items-center justify-between gap-6 shadow-2xl">
+            <div class="bg-slate-900/80 border border-slate-700 rounded-2xl p-6 flex flex-col md:flex-row items-center justify-between gap-6 shadow-2xl backdrop-blur-sm">
                 <div class="flex items-start gap-4">
                     <div class="p-3 bg-slate-900 rounded border border-slate-700">
                         <i data-lucide="credit-card" class="w-6 h-6 text-slate-400"></i>
@@ -99,7 +104,7 @@
         <section id="asset-panel" class="opacity-50 pointer-events-none transition-opacity duration-500">
             <div class="flex items-center justify-between mb-6">
                 <h1 class="text-2xl font-bold tracking-tight">New Asset Configuration</h1>
-                <span class="text-xs font-mono text-brand-orange bg-brand-orange/10 px-2 py-1 rounded border border-brand-orange/20">draft_mode</span>
+                <span class="text-[10px] font-mono text-sky-400 bg-slate-900/80 px-2 py-1 rounded-full border border-slate-600/80">draft_mode</span>
             </div>
 
             <div class="grid md:grid-cols-[1.5fr_1fr] gap-8">
@@ -144,7 +149,7 @@
                 </div>
 
                 <div class="flex flex-col h-full">
-                    <div class="bg-brand-surface border border-brand-border rounded-lg p-6 flex-1 flex flex-col">
+                    <-surface border border-brand-border rounded-lg p-6 flex-1 flex flex-col">
                         <label class="block text-xs font-mono font-bold text-slate-500 uppercase tracking-widest mb-4">Valuation</label>
                         <div class="relative mb-8">
                             <span class="absolute left-4 top-1/2 -translate-y-1/2 text-slate-500 text-lg font-light">$</span>
@@ -161,7 +166,7 @@
                                     <span id="net-calc">$0.00</span>
                                 </div>
                             </div>
-                            <button id="btn-generate" onclick="generateAsset()" class="w-full bg-brand-orange hover:bg-orange-500 text-brand-dark font-bold py-4 rounded shadow-lg shadow-orange-900/20 transition-all active:scale-[0.98] flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed">
+                                <button id="btn-generate" onclick="generateAsset()" class="w-full bg-btn-gradient text-[#020617] font-semibold py-4 rounded-full shadow-lg shadow-sky-500/30 transition-all active:scale-[0.98] flex items-center justify-center gap-2 hover:brightness-110 disabled:opacity-50 disabled:cursor-not-allowed">
                                 <i data-lucide="zap" class="w-5 h-5"></i>
                                 Generate Asset Link
                             </button>
