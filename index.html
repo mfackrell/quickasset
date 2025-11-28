@@ -194,7 +194,13 @@
           >
             Connect Stripe & create a link
           </a>
-          <button class="btn btn-ghost" type="button">See a sample checkout &amp; download flow</button>
+          <button 
+            class="btn btn-ghost" 
+            type="button"
+            onclick="startDemoExperience()"
+          >
+            See a sample checkout & download flow
+          </button>
         </div>
 
         <div class="hero-meta">
@@ -204,7 +210,7 @@
         </div>
       </section>
 
-      <section class="app-container">
+      <section id="interactive-demo" class="app-container">
         <div id="app-wrapper" class="relative w-full">
           
           <div class="flex justify-center mb-6">
@@ -458,6 +464,40 @@
       }, 1000);
   }
 
+  // --- NEW FUNCTION: Handles the "See Sample" button logic ---
+  function startDemoExperience() {
+      // 1. Track the click in Vercel Analytics
+      if (window.va) {
+          window.va('event', 'Hero_Demo_Click');
+      }
+
+      // 2. Switch to Buyer View immediately (Remote Control)
+      switchPersona('buyer');
+
+      // 3. Logic Check: Mobile vs Desktop
+      // We check if width is less than 900px (your CSS breakpoint)
+      if (window.innerWidth < 900) {
+          // MOBILE: Scroll down so they can see it
+          document.getElementById('interactive-demo').scrollIntoView({ 
+              behavior: 'smooth',
+              block: 'center' 
+          });
+      } else {
+          // DESKTOP: Don't scroll. Add a "Glow" effect to draw attention.
+          const buyerPanel = document.querySelector('#buyer-view .glass-panel');
+          if (buyerPanel) {
+              buyerPanel.style.transition = 'box-shadow 0.4s ease';
+              buyerPanel.style.boxShadow = '0 0 50px rgba(56, 189, 248, 0.5)'; // Sky blue glow
+              
+              // Remove glow after 0.8 seconds
+              setTimeout(() => {
+                  buyerPanel.style.boxShadow = '';
+              }, 800);
+          }
+      }
+  }
+
+  
   // Switch Views
   function switchPersona(type) {
       if (type === 'buyer') {
