@@ -187,7 +187,13 @@
         </p>
 
         <div class="hero-cta-row">
-          <a href="/app.html" class="btn btn-primary">Connect Stripe &amp; create a link</a>
+          <a 
+            href="/app.html" 
+            class="btn btn-primary"
+            onclick="window.va('event', 'Signup_Click', { location: 'hero_primary' })"
+          >
+            Connect Stripe & create a link
+          </a>
           <button class="btn btn-ghost" type="button">See a sample checkout &amp; download flow</button>
         </div>
 
