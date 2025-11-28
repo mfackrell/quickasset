@@ -452,6 +452,9 @@
 
   // Publish Simulation
   function publishAsset() {
+      // Add this line to track when they finish the demo
+      if (window.va) window.va('event', 'Demo_Completed_Upload');
+    
       const btn = event.currentTarget;
       const originalHTML = btn.innerHTML;
       btn.disabled = true;
