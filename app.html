@@ -7,7 +7,7 @@
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;600;700&family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
     
     <script src="https://unpkg.com/lucide@latest"></script>
     
@@ -16,22 +16,32 @@
       tailwind.config = {
         theme: {
           fontFamily: {
-            sans: ['system-ui', '-apple-system', 'BlinkMacSystemFont', '"SF Pro Text"', 'Inter', '"Segoe UI"', 'sans-serif'],
+            sans: ['Inter', 'system-ui', '-apple-system', 'BlinkMacSystemFont', '"SF Pro Text"', '"Segoe UI"', 'sans-serif'],
+            display: ['Fraunces', 'ui-serif', 'Georgia', 'serif'],
             mono: ['JetBrains Mono', 'monospace'],
           },
           extend: {
             colors: {
               slate: { 750: '#2d3748', 850: '#1a202c', 900: '#0f172a', 950: '#020617' },
               brand: {
-                orange: '#38bdf8',
+                cyan: '#38bdf8',
+                green: '#4ade80',
+                purple: '#a855f7',
                 dark: '#020617',
-                surface: '#0f172a',
-                border: '#1f2937',
+                panel: 'rgba(15, 23, 42, 0.78)',
+                panelStrong: 'rgba(15, 23, 42, 0.88)',
+                stroke: 'rgba(148, 163, 184, 0.16)',
+                strokeStrong: 'rgba(148, 163, 184, 0.28)',
               }
             },
             backgroundImage: {
               'btn-gradient': 'radial-gradient(circle at 0 0, #4ade80 0, #38bdf8 40%, #2563eb 80%)',
               'brand-gradient': 'conic-gradient(from 210deg, #38bdf8, #4ade80, #a855f7, #38bdf8)',
+            },
+            boxShadow: {
+              glow: '0 30px 80px rgba(0, 0, 0, 0.55)',
+              panel: '0 18px 50px rgba(0, 0, 0, 0.42)',
+              soft: '0 12px 30px rgba(0, 0, 0, 0.34)',
             }
           }
         }
@@ -39,171 +49,317 @@
     </script>
     
     <style>
+        :root {
+          --bg0: #020617;
+          --bg1: #050816;
+          --panel: rgba(15, 23, 42, 0.64);
+          --panel-strong: rgba(15, 23, 42, 0.82);
+          --panel-soft: rgba(2, 6, 23, 0.48);
+          --stroke: rgba(148, 163, 184, 0.16);
+          --stroke-strong: rgba(148, 163, 184, 0.28);
+          --text: #e5e7eb;
+          --text-soft: #aeb7c5;
+          --text-softer: #7b8698;
+          --success: #22c55e;
+        }
+
+        * { box-sizing: border-box; }
+        html, body { min-height: 100%; }
+
         body {
           margin: 0;
-          font-family: system-ui, -apple-system, BlinkMacSystemFont, "SF Pro Text", "Inter", "Segoe UI", sans-serif;
-          background: #020617;
-          color: #e5e7eb;
+          font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", sans-serif;
+          background: var(--bg0);
+          color: var(--text);
           line-height: 1.6;
           -webkit-font-smoothing: antialiased;
+          text-rendering: optimizeLegibility;
         }
-        
-        .bg-grid {
+
+        .page-wrapper {
+          min-height: 100vh;
+          position: relative;
+          overflow: hidden;
           background:
-            radial-gradient(circle at top left, rgba(56,189,248,0.14) 0, transparent 40%),
-            radial-gradient(circle at bottom right, rgba(94,234,212,0.1) 0, transparent 40%),
-            linear-gradient(to bottom, #020617 0, #020617 60%, #020617 100%);
+            radial-gradient(1000px 700px at 8% -8%, rgba(56, 189, 248, 0.20) 0%, rgba(2, 6, 23, 0) 56%),
+            radial-gradient(900px 700px at 105% 10%, rgba(168, 85, 247, 0.12) 0%, rgba(2, 6, 23, 0) 54%),
+            radial-gradient(900px 600px at 80% 110%, rgba(74, 222, 128, 0.10) 0%, rgba(2, 6, 23, 0) 54%),
+            linear-gradient(180deg, #020617 0%, #020617 100%);
+        }
+
+        .page-wrapper::before {
+          content: "";
+          position: absolute;
+          inset: 0;
+          pointer-events: none;
+          background:
+            linear-gradient(to bottom, rgba(255,255,255,0.03), transparent 18%),
+            linear-gradient(to right, rgba(255,255,255,0.02), transparent 30%, transparent 70%, rgba(255,255,255,0.02));
+          mask-image: radial-gradient(circle at center, black 20%, transparent 100%);
+          opacity: 0.5;
+        }
+
+        .page-wrapper::after {
+          content: "";
+          position: absolute;
+          inset: 0;
+          pointer-events: none;
+          opacity: 0.05;
+          mix-blend-mode: overlay;
+          background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='220' height='220' filter='url(%23n)' opacity='.6'/%3E%3C/svg%3E");
+        }
+
+        .glass-card {
+          background: var(--panel);
+          border: 1px solid var(--stroke);
+          backdrop-filter: blur(18px);
+          box-shadow: 0 18px 50px rgba(0, 0, 0, 0.42);
+        }
+
+        .glass-card-strong {
+          background: var(--panel-strong);
+          border: 1px solid var(--stroke-strong);
+          backdrop-filter: blur(18px);
+          box-shadow: 0 18px 50px rgba(0, 0, 0, 0.42);
+        }
+
+        .brand-mark {
+          position: relative;
+          overflow: hidden;
+        }
+
+        .brand-mark::after {
+          content: "";
+          position: absolute;
+          inset: 2px;
+          border-radius: inherit;
+          background: radial-gradient(circle at 25% 10%, #1e293b 0, #020617 58%);
+        }
+
+        .brand-mark > span {
+          position: relative;
+          z-index: 1;
+        }
+
+        .section-kicker {
+          letter-spacing: 0.24em;
+        }
+
+        .hero-title span {
+          background: linear-gradient(90deg, #38bdf8 0%, #4ade80 52%, #a855f7 100%);
+          -webkit-background-clip: text;
+          background-clip: text;
+          color: transparent;
+        }
+
+        .field-shell:focus-within,
+        .drop-zone-active {
+          border-color: rgba(56, 189, 248, 0.7) !important;
+          box-shadow: 0 0 0 1px rgba(56, 189, 248, 0.35), 0 20px 45px rgba(14, 165, 233, 0.15);
+        }
+
+        .metric-divider {
+          background: linear-gradient(90deg, rgba(148,163,184,0), rgba(148,163,184,0.32), rgba(148,163,184,0));
+          height: 1px;
         }
     </style>
     <script defer src="https://vercel.com/analytics/script.js"></script>
 </head>
-<body class="bg-grid text-slate-100 min-h-screen flex flex-col">
-
-    <nav class="w-full border-b border-brand-border bg-brand-dark/90 backdrop-blur-md sticky top-0 z-50">
-        <div class="max-w-4xl mx-auto px-6 h-16 flex items-center justify-between">
-            <div class="flex items-center gap-3">
-                <div class="w-8 h-8 bg-brand-orange rounded-sm flex items-center justify-center font-mono font-bold text-brand-dark text-xl">Q</div>
-                <span class="font-bold text-sm tracking-wider uppercase text-slate-300">QuickAsset <span class="text-brand-orange">Terminal</span></span>
-            </div>
-            <div class="flex items-center gap-4">
-                <div class="hidden md:flex items-center gap-2 px-3 py-1 rounded bg-brand-surface border border-brand-border">
-                    <div class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></div>
-                    <span class="text-xs font-mono text-slate-400">SYSTEM: ONLINE</span>
+<body>
+    <div class="page-wrapper">
+        <div class="relative z-10 mx-auto flex min-h-screen w-full max-w-7xl flex-col px-5 pb-12 pt-6 sm:px-6 lg:px-8">
+            <header class="mb-8 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+                <div class="flex items-center gap-3 min-w-[220px]">
+                    <div class="brand-mark h-10 w-10 rounded-2xl bg-brand-gradient shadow-[0_20px_50px_rgba(56,189,248,0.28)] flex items-center justify-center">
+                        <span class="font-display text-base font-semibold text-white">Q</span>
+                    </div>
+                    <div class="flex flex-col gap-0.5">
+                        <span class="text-base font-bold tracking-[-0.02em] text-white">QuickAsset Terminal</span>
+                        <span class="text-xs text-slate-500">Cosmetic refresh, same seller workflow.</span>
+                    </div>
                 </div>
-                <div class="w-8 h-8 bg-slate-700 rounded-full border border-slate-600 flex items-center justify-center text-xs font-bold">ME</div>
+                <div class="flex items-center gap-3 self-start sm:self-auto">
+                    <div class="inline-flex items-center gap-2 rounded-full border border-brand-strokeStrong bg-[rgba(15,23,42,0.56)] px-3 py-1.5 text-xs text-slate-300 shadow-soft backdrop-blur-xl">
+                        <span class="h-2 w-2 rounded-full bg-emerald-400 shadow-[0_0_0_4px_rgba(34,197,94,0.18)]"></span>
+                        Seller ops online
+                    </div>
+                    <div class="flex h-10 w-10 items-center justify-center rounded-full border border-white/10 bg-white/5 text-xs font-semibold text-white">ME</div>
+                </div>
+            </header>
+
+            <main class="grid flex-1 gap-8 lg:grid-cols-[minmax(0,0.92fr)_minmax(0,1.08fr)] lg:items-start">
+                <section class="order-2 lg:order-1">
+                    <div class="mb-5 inline-flex items-center gap-2 rounded-full border border-brand-strokeStrong bg-[rgba(15,23,42,0.56)] px-3 py-1.5 text-xs text-slate-300 shadow-soft backdrop-blur-xl">
+                        <span class="font-semibold text-sky-300">Seller workspace</span>
+                        <span class="text-slate-500">Stripe connect → upload → generate link</span>
+                    </div>
+                    <h1 class="hero-title max-w-[11ch] font-display text-5xl font-semibold leading-[0.96] tracking-[-0.05em] text-white sm:text-6xl">Launch a <span>premium</span> asset flow.</h1>
+                    <p class="mt-5 max-w-xl text-sm leading-7 text-slate-300/85 sm:text-[15px]">Everything on this page keeps the same tracking, API calls, Stripe connection flow, and asset generation logic. The update only brings the seller experience in line with the polished visual language from the landing page.</p>
+
+                    <div class="mt-8 space-y-4">
+                        <div class="glass-card rounded-[24px] p-5 sm:p-6">
+                            <div class="flex items-start gap-4">
+                                <div class="flex h-12 w-12 items-center justify-center rounded-2xl border border-white/10 bg-slate-950/80">
+                                    <i data-lucide="credit-card" class="h-5 w-5 text-sky-300"></i>
+                                </div>
+                                <div class="flex-1">
+                                    <div class="section-kicker mb-2 text-[11px] font-semibold uppercase text-slate-500">Payout destination</div>
+                                    <h2 class="text-xl font-semibold text-white">Connect Stripe before you publish.</h2>
+                                    <p class="mt-2 max-w-md text-sm text-slate-400" id="stripe-status-text">Link Stripe to enable asset generation.</p>
+                                </div>
+                            </div>
+
+                            <div class="mt-6 flex flex-col gap-3 sm:flex-row sm:items-center">
+                                <button id="btn-connect-stripe" onclick="handleStripeConnect()" class="group inline-flex items-center justify-center gap-2 rounded-full bg-btn-gradient px-6 py-3 text-sm font-semibold text-[#020617] shadow-lg shadow-sky-500/30 transition-all hover:brightness-110 active:scale-[0.98]">
+                                    <span class="flex items-center gap-2">
+                                        <i data-lucide="link-2" class="h-4 w-4"></i>
+                                        Connect Stripe
+                                    </span>
+                                </button>
+
+                                <div id="stripe-connected-badge" class="hidden items-center gap-2 rounded-full border border-emerald-500/30 bg-emerald-500/10 px-4 py-2 text-xs font-semibold uppercase tracking-[0.24em] text-emerald-300">
+                                    <i data-lucide="check-circle" class="h-4 w-4"></i>
+                                    Account Active
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="glass-card rounded-[24px] p-5 sm:p-6">
+                            <div class="section-kicker mb-3 text-[11px] font-semibold uppercase text-slate-500">Workflow snapshot</div>
+                            <div class="grid gap-3 sm:grid-cols-3">
+                                <div class="rounded-2xl border border-white/10 bg-slate-950/50 p-4">
+                                    <div class="text-xs uppercase tracking-[0.22em] text-slate-500">01</div>
+                                    <div class="mt-2 text-sm font-medium text-white">Add file payload</div>
+                                    <p class="mt-1 text-xs text-slate-400">Upload your existing asset package.</p>
+                                </div>
+                                <div class="rounded-2xl border border-white/10 bg-slate-950/50 p-4">
+                                    <div class="text-xs uppercase tracking-[0.22em] text-slate-500">02</div>
+                                    <div class="mt-2 text-sm font-medium text-white">Set commercial details</div>
+                                    <p class="mt-1 text-xs text-slate-400">Name the asset and set the amount.</p>
+                                </div>
+                                <div class="rounded-2xl border border-white/10 bg-slate-950/50 p-4">
+                                    <div class="text-xs uppercase tracking-[0.22em] text-slate-500">03</div>
+                                    <div class="mt-2 text-sm font-medium text-white">Generate payment link</div>
+                                    <p class="mt-1 text-xs text-slate-400">Share the resulting checkout instantly.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <section id="asset-panel" class="order-1 rounded-[30px] border border-brand-stroke bg-[rgba(2,6,23,0.52)] p-4 opacity-50 shadow-glow backdrop-blur-xl transition-opacity duration-500 pointer-events-none sm:p-6 lg:order-2 lg:p-7">
+                    <div class="glass-card-strong rounded-[26px] p-5 sm:p-6">
+                        <div class="flex flex-col gap-4 border-b border-white/10 pb-5 sm:flex-row sm:items-end sm:justify-between">
+                            <div>
+                                <div class="section-kicker mb-2 text-[11px] font-semibold uppercase text-slate-500">Seller terminal</div>
+                                <h2 class="text-2xl font-semibold tracking-[-0.03em] text-white">New asset configuration</h2>
+                                <p class="mt-2 text-sm text-slate-400">Configure the same publishing flow with a landing-page-inspired presentation.</p>
+                            </div>
+                            <span class="inline-flex w-fit items-center rounded-full border border-sky-400/20 bg-sky-400/10 px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.24em] text-sky-300">draft mode</span>
+                        </div>
+
+                        <div class="mt-6 grid gap-6 xl:grid-cols-[minmax(0,1.3fr)_minmax(280px,0.8fr)]">
+                            <div class="space-y-5">
+                                <div>
+                                    <label class="section-kicker mb-3 block text-[11px] font-semibold uppercase text-slate-500">01 // Asset payload</label>
+                                    <div id="drop-zone" class="group relative flex h-56 cursor-pointer flex-col items-center justify-center overflow-hidden rounded-[24px] border border-dashed border-white/15 bg-slate-950/55 px-6 text-center transition-all hover:border-sky-400/40 hover:bg-slate-950/75">
+                                        <div class="pointer-events-none absolute inset-x-10 top-0 h-px bg-gradient-to-r from-transparent via-white/20 to-transparent"></div>
+                                        <div id="drop-content-default" class="relative z-10 flex flex-col items-center">
+                                            <div class="mb-4 flex h-14 w-14 items-center justify-center rounded-full border border-white/10 bg-white/5 transition-transform group-hover:scale-110">
+                                                <i data-lucide="upload-cloud" class="h-6 w-6 text-slate-300 transition-colors group-hover:text-sky-300"></i>
+                                            </div>
+                                            <p class="text-base font-medium text-white">Drag a file here or click to browse</p>
+                                            <p class="mt-2 text-xs uppercase tracking-[0.2em] text-slate-500">MP4, PDF, ZIP · Max 2GB</p>
+                                        </div>
+                                        <div id="drop-content-uploaded" class="hidden relative z-10 flex-col items-center w-full px-8">
+                                            <i data-lucide="file-check" class="mb-3 h-9 w-9 text-emerald-400"></i>
+                                            <p id="file-name" class="w-full truncate text-center text-sm font-medium text-white">filename.zip</p>
+                                            <p class="mt-2 text-xs uppercase tracking-[0.2em] text-emerald-400">Upload complete</p>
+                                        </div>
+                                        <div id="upload-progress" class="absolute bottom-0 left-0 h-1 w-0 rounded-r-full bg-btn-gradient transition-all duration-300"></div>
+                                    </div>
+                                    <input type="file" id="file-input" class="hidden">
+                                </div>
+
+                                <div>
+                                    <label class="section-kicker mb-3 block text-[11px] font-semibold uppercase text-slate-500">02 // Designation</label>
+                                    <div class="field-shell rounded-[20px] border border-white/10 bg-slate-950/60 transition-all">
+                                        <input type="text" id="input-title" placeholder="e.g. Q3 Marketing Strategy" class="w-full rounded-[20px] bg-transparent px-5 py-4 text-sm text-white placeholder:text-slate-600 focus:outline-none">
+                                    </div>
+                                </div>
+
+                                <div>
+                                    <label class="mb-3 flex items-center justify-between section-kicker text-[11px] font-semibold uppercase text-slate-500">
+                                        <span>03 // Targeted delivery</span>
+                                        <span class="rounded-full border border-white/10 bg-white/5 px-2 py-0.5 text-[10px] tracking-[0.18em] text-slate-400">optional</span>
+                                    </label>
+                                    <div class="field-shell group relative rounded-[20px] border border-white/10 bg-slate-950/60 transition-all">
+                                        <i data-lucide="mail" class="absolute left-5 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-500 transition-colors group-focus-within:text-sky-300"></i>
+                                        <input type="email" id="input-email" placeholder="client@company.com" class="w-full rounded-[20px] bg-transparent py-4 pl-12 pr-5 text-sm text-white placeholder:text-slate-600 focus:outline-none font-mono">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="glass-card rounded-[24px] p-5 sm:p-6">
+                                <label class="section-kicker mb-4 block text-[11px] font-semibold uppercase text-slate-500">Valuation</label>
+                                <div class="relative mb-6">
+                                    <span class="absolute left-5 top-1/2 -translate-y-1/2 text-xl font-light text-slate-500">$</span>
+                                    <div class="field-shell rounded-[22px] border border-white/10 bg-slate-950/80 transition-all">
+                                        <input type="number" id="input-price" placeholder="0.00" class="w-full rounded-[22px] bg-transparent py-5 pl-10 pr-5 text-4xl font-semibold tracking-[-0.04em] text-white placeholder:text-slate-700 focus:outline-none font-mono">
+                                    </div>
+                                </div>
+
+                                <div class="rounded-[22px] border border-white/10 bg-slate-950/55 p-4">
+                                    <div class="flex items-center justify-between text-xs text-slate-400 font-mono">
+                                        <span>Platform Fee (5%)</span>
+                                        <span id="fee-calc">$0.00</span>
+                                    </div>
+                                    <div class="metric-divider my-3"></div>
+                                    <div class="flex items-center justify-between text-sm font-semibold text-emerald-300 font-mono">
+                                        <span>Net Revenue</span>
+                                        <span id="net-calc">$0.00</span>
+                                    </div>
+                                </div>
+
+                                <button id="btn-generate" onclick="generateAsset()" class="mt-6 flex w-full items-center justify-center gap-2 rounded-full bg-btn-gradient px-5 py-4 text-sm font-semibold text-[#020617] shadow-lg shadow-sky-500/30 transition-all hover:brightness-110 active:scale-[0.98] disabled:cursor-not-allowed disabled:opacity-50">
+                                    <i data-lucide="zap" class="h-5 w-5"></i>
+                                    Generate Asset Link
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </main>
+        </div>
+
+        <div id="modal-success" class="fixed inset-0 z-[100] hidden items-center justify-center bg-[rgba(2,6,23,0.88)] p-4 backdrop-blur-md">
+            <div class="glass-card-strong relative w-full max-w-lg overflow-hidden rounded-[28px] p-8 shadow-glow">
+                <div class="absolute inset-x-0 top-0 h-1 bg-btn-gradient"></div>
+                <div class="text-center">
+                    <div class="mx-auto mb-5 flex h-16 w-16 items-center justify-center rounded-full border border-sky-400/20 bg-sky-400/10">
+                        <i data-lucide="check" class="h-8 w-8 text-sky-300"></i>
+                    </div>
+                    <div class="section-kicker mb-2 text-[11px] font-semibold uppercase text-slate-500">Asset deployed</div>
+                    <h3 class="text-2xl font-semibold text-white">Your payment link is ready.</h3>
+                    <p class="mt-2 text-sm text-slate-400">Ready for transaction.</p>
+                </div>
+                <div class="mt-7 rounded-[22px] border border-white/10 bg-slate-950/70 p-4">
+                    <p class="section-kicker mb-3 text-[10px] font-semibold uppercase text-slate-500">Secure link</p>
+                    <div class="flex items-center justify-between gap-3">
+                        <a id="generated-link" href="#" target="_blank" class="truncate text-sm font-medium text-emerald-300 transition-colors hover:text-emerald-200 hover:underline font-mono">...</a>
+                        <button id="btn-copy" class="flex h-10 w-10 items-center justify-center rounded-full border border-white/10 bg-white/5 text-slate-400 transition-colors hover:text-white">
+                            <i data-lucide="copy" class="h-4 w-4"></i>
+                        </button>
+                    </div>
+                </div>
+                <div id="email-confirm-msg" class="mt-5 hidden items-start gap-3 rounded-[20px] border border-emerald-500/20 bg-emerald-500/10 p-4">
+                    <i data-lucide="mail-check" class="mt-0.5 h-4 w-4 text-emerald-400"></i>
+                    <div class="text-xs text-emerald-300"><span class="font-bold">Sent:</span> Invoice emailed directly to <span id="confirm-email-addr" class="underline"></span></div>
+                </div>
+                <button onclick="resetForm()" class="mt-6 w-full rounded-full border border-white/10 bg-white/5 px-5 py-3 text-sm font-semibold text-white transition-colors hover:bg-white/10">Create New Asset</button>
             </div>
         </div>
-    </nav>
-
-    <main class="flex-1 w-full max-w-4xl mx-auto p-6 md:p-12">
-        
-        <section class="mb-12">
-            <div class="bg-slate-900/80 border border-slate-700 rounded-2xl p-6 flex flex-col md:flex-row items-center justify-between gap-6 shadow-2xl backdrop-blur-sm">
-                <div class="flex items-start gap-4">
-                    <div class="p-3 bg-slate-900 rounded border border-slate-700">
-                        <i data-lucide="credit-card" class="w-6 h-6 text-slate-400"></i>
-                    </div>
-                    <div>
-                        <h2 class="text-lg font-bold text-white">Payout Destination</h2>
-                        <p class="text-sm text-slate-400 mt-1" id="stripe-status-text">Link Stripe to enable asset generation.</p>
-                    </div>
-                </div>
-                
-                <button id="btn-connect-stripe" onclick="handleStripeConnect()" class="group relative overflow-hidden bg-slate-900 hover:bg-slate-800 text-white border border-slate-600 hover:border-slate-500 px-6 py-3 rounded font-mono text-sm transition-all">
-                    <span class="relative z-10 flex items-center gap-2">
-                        <i data-lucide="link-2" class="w-4 h-4"></i> Connect Stripe
-                    </span>
-                </button>
-
-                <div id="stripe-connected-badge" class="hidden flex items-center gap-3 bg-emerald-500/10 border border-emerald-500/30 px-4 py-2 rounded text-emerald-400 text-xs font-mono uppercase tracking-wider">
-                    <i data-lucide="check-circle" class="w-4 h-4"></i>
-                    Account Active
-                </div>
-            </div>
-        </section>
-
-        <section id="asset-panel" class="opacity-50 pointer-events-none transition-opacity duration-500">
-            <div class="flex items-center justify-between mb-6">
-                <h1 class="text-2xl font-bold tracking-tight">New Asset Configuration</h1>
-                <span class="text-[10px] font-mono text-sky-400 bg-slate-900/80 px-2 py-1 rounded-full border border-slate-600/80">draft_mode</span>
-            </div>
-
-            <div class="grid md:grid-cols-[1.5fr_1fr] gap-8">
-                <div class="space-y-6">
-                    <div>
-                        <label class="block text-xs font-mono font-bold text-slate-500 uppercase tracking-widest mb-2">01 // Asset Payload</label>
-                        <div id="drop-zone" class="h-48 border-2 border-dashed border-slate-700 hover:border-brand-orange/50 bg-slate-900/50 rounded-lg flex flex-col items-center justify-center cursor-pointer transition-all group relative overflow-hidden">
-                            <div id="drop-content-default" class="flex flex-col items-center z-10">
-                                <div class="p-3 bg-brand-surface rounded-full mb-3 group-hover:scale-110 transition-transform border border-brand-border">
-                                    <i data-lucide="upload-cloud" class="w-6 h-6 text-slate-400 group-hover:text-brand-orange transition-colors"></i>
-                                </div>
-                                <p class="text-sm font-medium text-slate-300">Drag file or click to browse</p>
-                                <p class="text-xs text-slate-500 mt-1 font-mono">MP4, PDF, ZIP (Max 2GB)</p>
-                            </div>
-                            <div id="drop-content-uploaded" class="hidden flex-col items-center z-10 w-full px-8">
-                                <i data-lucide="file-check" class="w-8 h-8 text-emerald-500 mb-2"></i>
-                                <p id="file-name" class="text-sm font-mono text-white truncate w-full text-center">filename.zip</p>
-                                <p class="text-xs text-emerald-500 mt-1">Upload Complete</p>
-                            </div>
-                            <div id="upload-progress" class="absolute bottom-0 left-0 h-1 bg-brand-orange transition-all duration-300 w-0"></div>
-                        </div>
-                        <input type="file" id="file-input" class="hidden">
-                    </div>
-
-                    <div class="grid grid-cols-1 gap-6">
-                        <div>
-                            <label class="block text-xs font-mono font-bold text-slate-500 uppercase tracking-widest mb-2">02 // Designation</label>
-                            <input type="text" id="input-title" placeholder="e.g. Q3 Marketing Strategy" class="w-full bg-brand-surface border border-brand-border rounded p-4 text-sm text-white placeholder:text-slate-600 focus:outline-none focus:border-brand-orange focus:ring-1 focus:ring-brand-orange transition-all">
-                        </div>
-                    </div>
-
-                    <div>
-                         <label class="flex items-center justify-between text-xs font-mono font-bold text-slate-500 uppercase tracking-widest mb-2">
-                            <span>03 // Targeted Delivery</span>
-                            <span class="text-[10px] bg-slate-800 px-1.5 py-0.5 rounded text-slate-400">OPTIONAL</span>
-                        </label>
-                        <div class="relative group">
-                            <i data-lucide="mail" class="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-500 group-focus-within:text-brand-orange transition-colors"></i>
-                            <input type="email" id="input-email" placeholder="client@company.com" class="w-full bg-brand-surface border border-brand-border rounded p-4 pl-11 text-sm text-white placeholder:text-slate-600 focus:outline-none focus:border-brand-orange focus:ring-1 focus:ring-brand-orange transition-all font-mono">
-                        </div>
-                    </div>
-                </div>
-
-                <div class="flex flex-col h-full">
-                        <div class="bg-slate-900/80 border border-slate-700 rounded-lg p-6 flex-1 flex flex-col">
-                        <label class="block text-xs font-mono font-bold text-slate-500 uppercase tracking-widest mb-4">Valuation</label>
-                        <div class="relative mb-8">
-                            <span class="absolute left-4 top-1/2 -translate-y-1/2 text-slate-500 text-lg font-light">$</span>
-                            <input type="number" id="input-price" placeholder="0.00" class="w-full bg-slate-900 border border-slate-700 rounded p-4 pl-8 text-3xl font-mono font-bold text-white placeholder:text-slate-700 focus:outline-none focus:border-brand-orange transition-all">
-                        </div>
-                        <div class="mt-auto">
-                            <div class="bg-slate-900/50 rounded p-4 mb-4 border border-slate-800">
-                                <div class="flex justify-between text-xs text-slate-400 mb-2 font-mono">
-                                    <span>Platform Fee (5%)</span>
-                                    <span id="fee-calc">$0.00</span>
-                                </div>
-                                <div class="flex justify-between text-sm text-emerald-400 font-bold font-mono border-t border-slate-700 pt-2">
-                                    <span>Net Revenue</span>
-                                    <span id="net-calc">$0.00</span>
-                                </div>
-                            </div>
-                                <button id="btn-generate" onclick="generateAsset()" class="w-full bg-btn-gradient text-[#020617] font-semibold py-4 rounded-full shadow-lg shadow-sky-500/30 transition-all active:scale-[0.98] flex items-center justify-center gap-2 hover:brightness-110 disabled:opacity-50 disabled:cursor-not-allowed">
-                                <i data-lucide="zap" class="w-5 h-5"></i>
-                                Generate Asset Link
-                            </button>
-                        </div>
-                        </div>
-                </div>
-            </div>
-        </section>
-
-        <div id="modal-success" class="fixed inset-0 bg-brand-dark/90 backdrop-blur-sm z-[100] hidden items-center justify-center p-4">
-            <div class="bg-brand-surface border border-slate-600 rounded-lg shadow-2xl max-w-md w-full p-8 relative overflow-hidden">
-                <div class="absolute top-0 left-0 w-full h-1 bg-brand-orange"></div>
-                <div class="text-center mb-6">
-                    <div class="w-16 h-16 bg-brand-orange/10 rounded-full flex items-center justify-center mx-auto mb-4 border border-brand-orange/20">
-                        <i data-lucide="check" class="w-8 h-8 text-brand-orange"></i>
-                    </div>
-                    <h3 class="text-xl font-bold text-white">Asset Deployed</h3>
-                    <p class="text-sm text-slate-400 mt-1">Ready for transaction.</p>
-                </div>
-                <div class="bg-slate-900 border border-slate-700 rounded p-4 mb-6">
-                    <p class="text-[10px] text-slate-500 uppercase font-mono mb-2">Secure Link</p>
-                    <div class="flex items-center justify-between gap-2">
-                    <a id="generated-link" href="#" target="_blank" class="text-emerald-400 font-mono text-sm truncate hover:underline hover:text-emerald-300 transition-colors">...</a>                        
-                    <button id="btn-copy" class="text-slate-400 hover:text-white transition-colors">
-                        <i data-lucide="copy" class="w-4 h-4"></i>
-                    </button>
-                    </div>
-                </div>
-                <div id="email-confirm-msg" class="hidden bg-emerald-900/20 border border-emerald-500/20 rounded p-3 mb-6 flex items-start gap-3">
-                    <i data-lucide="mail-check" class="w-4 h-4 text-emerald-500 mt-0.5"></i>
-                    <div class="text-xs text-emerald-400"><span class="font-bold">Sent:</span> Invoice emailed directly to <span id="confirm-email-addr" class="underline"></span></div>
-                </div>
-                <button onclick="resetForm()" class="w-full bg-slate-700 hover:bg-slate-600 text-white font-bold py-3 rounded transition-colors text-sm">Create New Asset</button>
-            </div>
-        </div>
-    </main>
+    </div>
 
     <script type="module">
         // --- 0. REQUIRED: IMPORT VERCEL BLOB CLIENT ---
@@ -293,11 +449,11 @@
 
         // --- FILE UPLOAD LOGIC ---
         dropZone.addEventListener('click', () => fileInput.click());
-        dropZone.addEventListener('dragover', (e) => { e.preventDefault(); dropZone.classList.add('border-brand-orange', 'bg-slate-800'); });
-        dropZone.addEventListener('dragleave', () => { dropZone.classList.remove('border-brand-orange', 'bg-slate-800'); });
+        dropZone.addEventListener('dragover', (e) => { e.preventDefault(); dropZone.classList.add('drop-zone-active', 'bg-slate-950/80'); });
+        dropZone.addEventListener('dragleave', () => { dropZone.classList.remove('drop-zone-active', 'bg-slate-950/80'); });
         dropZone.addEventListener('drop', (e) => {
             e.preventDefault();
-            dropZone.classList.remove('border-brand-orange', 'bg-slate-800');
+            dropZone.classList.remove('drop-zone-active', 'bg-slate-950/80');
             if (e.dataTransfer.files.length) handleFile(e.dataTransfer.files[0]);
         });
         fileInput.addEventListener('change', (e) => { if (e.target.files.length) handleFile(e.target.files[0]); });
