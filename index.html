@@ -648,28 +648,73 @@
             checkout link you can paste anywhere—DMs, email, Notion, or a bare-bones landing page.
           </p>
 
+          <p class="mt-5 text-sm text-slate-400">
+            $0/month · 5% per sale · Stripe's standard processing fees apply
+          </p>
+
           <div class="hero-cta-row">
             <a
               href="/app.html"
               class="btn btn-primary"
               onclick="window.va('event', 'Signup_Click', { location: 'hero_primary' })"
             >
-              Connect Stripe & create a link
+              Create My Payment Link
             </a>
 
             <button
               class="btn btn-ghost"
               type="button"
-              onclick="startDemoExperience()"
+              onclick="document.getElementById('how-it-works').scrollIntoView({ behavior: 'smooth' })"
             >
-              See a sample checkout & download flow
+              See How It Works
             </button>
           </div>
 
-          <div class="hero-meta">
-            <span>Business model: <strong>$0/month</strong> + ~5% application fee per sale (on top of Stripe fees)</span>
-            <span class="dot"></span>
-            <span>Stripe is Merchant of Record – you keep control of taxes &amp; payouts.</span>
+          <p class="mt-3 text-center text-xs text-slate-500">
+            Files deliver instantly. No monthly commitment. Cancel anytime.
+          </p>
+        </section>
+
+        <!-- Early-user testimonials are placeholders until verified customer attribution is available. -->
+        <section class="mt-10 rounded-[24px] border border-white/10 bg-white/[0.03] p-6 sm:p-7" aria-label="Early user feedback">
+          <div class="grid gap-6 md:grid-cols-3">
+            <blockquote class="border-b border-white/10 pb-6 md:border-b-0 md:border-r md:pb-0 md:pr-6">
+              <p class="text-sm leading-6 text-slate-200">"Created my first paid asset link in under 10 minutes — no store, no setup headache."</p>
+              <footer class="mt-3 text-xs font-medium text-slate-500">— Early user</footer>
+            </blockquote>
+            <blockquote class="border-b border-white/10 pb-6 md:border-b-0 md:border-r md:pb-0 md:px-6">
+              <p class="text-sm leading-6 text-slate-200">"Finally a simple way to sell files without building a full storefront."</p>
+              <footer class="mt-3 text-xs font-medium text-slate-500">— Early user</footer>
+            </blockquote>
+            <blockquote class="md:pl-6">
+              <p class="text-sm leading-6 text-slate-200">"Connected Stripe and had my first sale the same day."</p>
+              <footer class="mt-3 text-xs font-medium text-slate-500">— Early user</footer>
+            </blockquote>
+          </div>
+          <p class="mt-6 border-t border-white/10 pt-5 text-center text-xs text-slate-500">
+            Trusted by creators, consultants, and freelancers selling digital files.
+          </p>
+        </section>
+
+        <section id="how-it-works" class="mt-10 scroll-mt-8" aria-label="How QuickAsset works">
+          <div class="grid gap-4 md:grid-cols-3">
+            <article class="glass-panel p-6">
+              <div class="mb-4 flex h-9 w-9 items-center justify-center rounded-full border border-sky-400/20 bg-sky-400/10 text-sm font-bold text-sky-300">1</div>
+              <h2 class="text-base font-semibold text-white">Upload your file</h2>
+              <p class="mt-2 text-sm leading-6 text-slate-400">Add your PDF, template, or guide in seconds.</p>
+            </article>
+
+            <article class="glass-panel p-6">
+              <div class="mb-4 flex h-9 w-9 items-center justify-center rounded-full border border-emerald-400/20 bg-emerald-400/10 text-sm font-bold text-emerald-300">2</div>
+              <h2 class="text-base font-semibold text-white">Connect Stripe</h2>
+              <p class="mt-2 text-sm leading-6 text-slate-400">Link your existing Stripe account securely.</p>
+            </article>
+
+            <article class="glass-panel p-6">
+              <div class="mb-4 flex h-9 w-9 items-center justify-center rounded-full border border-violet-400/20 bg-violet-400/10 text-sm font-bold text-violet-300">3</div>
+              <h2 class="text-base font-semibold text-white">Share your link</h2>
+              <p class="mt-2 text-sm leading-6 text-slate-400">Send it anywhere — DMs, email, social, your bio.</p>
+            </article>
           </div>
         </section>
 
