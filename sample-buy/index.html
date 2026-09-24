@@ -41,10 +41,12 @@
     </header>
     
   <main class="card" style="max-width:620px;margin:0 auto;">
-    <div class="eyebrow">Demo preview (non-transactional).</div>
+    <div class="eyebrow">Demo preview (non-transactional). This shows what your buyer will see, but no payment is processed.</div>
     <p class="muted" style="margin:0 0 8px;font-size:13px;">Demo Seller</p>
     <h1 style="font-size:clamp(34px,7vw,52px);">Freelance Proposal Template</h1>
     <p>A polished proposal template delivered immediately after a successful purchase.</p>
+    <label for="demo-email" class="muted" style="display:block;margin:22px 0 8px;font-size:12px;">Receipt email</label>
+    <input id="demo-email" type="email" value="buyer@example.com" aria-label="Receipt email" style="width:100%;padding:13px 15px;border-radius:14px;border:1px solid var(--stroke);background:rgba(2,6,23,.55);color:white;font:inherit;outline:none;">
     <div style="display:flex;justify-content:space-between;align-items:end;gap:18px;margin:30px 0;padding:22px 0;border-top:1px solid var(--stroke);border-bottom:1px solid var(--stroke);">
       <div><div class="muted" style="font-size:12px;text-transform:uppercase;letter-spacing:.16em;">Digital file</div><div style="margin-top:7px;font-weight:600;">Proposal_Template.pdf</div></div>
       <div style="font-size:30px;font-weight:800;">$29.00</div>
@@ -52,9 +54,10 @@
     <button id="demo-pay" class="button" style="width:100%;">Pay &amp; Download</button>
     <p style="text-align:center;font-size:12px;margin-top:14px;">Payments are processed securely by Stripe.</p>
     <div id="demo-result" style="display:none;margin-top:22px;border:1px solid rgba(74,222,128,.22);background:rgba(74,222,128,.08);border-radius:16px;padding:16px;">
-      <strong style="display:block;margin-bottom:6px;">What happens after payment</strong>
-      <p style="margin:0;font-size:13px;">After payment, the download link appears instantly and a receipt is emailed.</p>
-      <p style="margin:8px 0 0;font-size:12px;color:#94a3b8;">No charge was made in this demo preview.</p>
+      <strong style="display:block;margin-bottom:6px;">Success! Your file is ready to download.</strong>
+      <p style="margin:0;font-size:13px;">Receipt emailed to <span id="demo-receipt-email">buyer@example.com</span>.</p>
+      <a href="/sample-buy/freelance-proposal-template-sample.txt" download class="button" style="margin-top:14px;">Download sample file</a>
+      <p style="margin:10px 0 0;font-size:12px;color:#94a3b8;">No payment was processed in this demo preview.</p>
     </div>
   </main>
 
@@ -69,6 +72,7 @@
   <script>
   document.getElementById('demo-pay').addEventListener('click', function () {
     document.getElementById('demo-result').style.display = 'block';
+    document.getElementById('demo-receipt-email').textContent = document.getElementById('demo-email').value || 'buyer@example.com';
     this.textContent = 'Demo preview — no charge made';
     this.disabled = true;
     this.style.opacity = '.7';
