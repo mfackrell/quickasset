@@ -188,10 +188,10 @@
             </header>
 
             <main class="grid flex-1 gap-8 lg:grid-cols-[minmax(0,0.92fr)_minmax(0,1.08fr)] lg:items-start">
-                <section class="order-2 lg:order-1">
+                <section class="order-1 lg:order-1">
                     <div class="mb-5 inline-flex items-center gap-2 rounded-full border border-brand-strokeStrong bg-[rgba(15,23,42,0.56)] px-3 py-1.5 text-xs text-slate-300 shadow-soft backdrop-blur-xl">
                         <span class="font-semibold text-sky-300">Create a payment link</span>
-                        <span class="text-slate-500">Upload → price → connect → share</span>
+                        <span class="text-slate-500">Upload → price → share</span>
                     </div>
                     <h1 class="hero-title max-w-[12ch] font-display text-5xl font-semibold leading-[0.96] tracking-[-0.05em] text-white sm:text-6xl">Create your payment link in minutes</h1>
                     <p class="mt-5 max-w-xl text-sm leading-7 text-slate-300/85 sm:text-[15px]">Upload your file, set a price, connect Stripe, and share one link to get paid and deliver instantly.</p>
@@ -204,10 +204,10 @@
                                     <i data-lucide="credit-card" class="h-5 w-5 text-sky-300"></i>
                                 </div>
                                 <div class="flex-1">
-                                    <div class="section-kicker mb-2 text-[11px] font-semibold uppercase text-slate-500">3. Connect Stripe</div>
-                                    <h2 class="text-xl font-semibold text-white">Connect Stripe to publish.</h2>
-                                    <p class="mt-2 max-w-md text-sm text-slate-400">Stripe handles secure payment processing and payouts to your connected account.</p>
-                                    <p class="mt-2 max-w-md text-xs text-slate-500" id="stripe-status-text">Stripe connection is required before your payment link can go live.</p>
+                                    <div class="section-kicker mb-2 text-[11px] font-semibold uppercase text-slate-500">Stripe connection</div>
+                                    <h2 class="text-xl font-semibold text-white">Connect your Stripe account</h2>
+                                    <p class="mt-2 max-w-md text-sm text-slate-400">Stripe processes payments and sends payouts to your account. Connection is required before your link can go live.</p>
+                                    <p class="mt-2 max-w-md text-xs text-slate-500" id="stripe-status-text">Stripe connection is secure and typically takes less than 2 minutes.</p>
                                 </div>
                             </div>
 
@@ -227,34 +227,29 @@
                         </div>
 
                         <div class="glass-card rounded-[24px] p-5 sm:p-6">
-                            <div class="section-kicker mb-3 text-[11px] font-semibold uppercase text-slate-500">Four simple steps</div>
-                            <div class="grid gap-3 sm:grid-cols-2 xl:grid-cols-4">
+                            <div class="section-kicker mb-3 text-[11px] font-semibold uppercase text-slate-500">Three simple steps</div>
+                            <div class="grid gap-3 md:grid-cols-3">
                                 <div class="rounded-2xl border border-white/10 bg-slate-950/50 p-4">
                                     <div class="text-xs uppercase tracking-[0.22em] text-slate-500">01</div>
-                                    <div class="mt-2 text-sm font-medium text-white">1. Upload file</div>
-                                    <p class="mt-1 text-xs text-slate-400">Add your PDF, ZIP, or MP4.</p>
+                                    <div class="mt-2 text-sm font-medium text-white">Step 1: Upload your file</div>
+                                    <p class="mt-1 text-xs text-slate-400">Add your PDF, ZIP, or MP4 (up to 2GB).</p>
                                 </div>
                                 <div class="rounded-2xl border border-white/10 bg-slate-950/50 p-4">
                                     <div class="text-xs uppercase tracking-[0.22em] text-slate-500">02</div>
-                                    <div class="mt-2 text-sm font-medium text-white">2. Set price</div>
-                                    <p class="mt-1 text-xs text-slate-400">Name your file and choose the price.</p>
+                                    <div class="mt-2 text-sm font-medium text-white">Step 2: Set your price</div>
+                                    <p class="mt-1 text-xs text-slate-400">Name the asset and choose the amount buyers will pay.</p>
                                 </div>
                                 <div class="rounded-2xl border border-white/10 bg-slate-950/50 p-4">
                                     <div class="text-xs uppercase tracking-[0.22em] text-slate-500">03</div>
-                                    <div class="mt-2 text-sm font-medium text-white">3. Connect Stripe</div>
-                                    <p class="mt-1 text-xs text-slate-400">Securely connect your payout account.</p>
-                                </div>
-                                <div class="rounded-2xl border border-white/10 bg-slate-950/50 p-4">
-                                    <div class="text-xs uppercase tracking-[0.22em] text-slate-500">04</div>
-                                    <div class="mt-2 text-sm font-medium text-white">4. Share link</div>
-                                    <p class="mt-1 text-xs text-slate-400">Send your payment link anywhere.</p>
+                                    <div class="mt-2 text-sm font-medium text-white">Step 3: Generate &amp; share your link</div>
+                                    <p class="mt-1 text-xs text-slate-400">Get a payment link you can send anywhere.</p>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </section>
 
-                <section id="asset-panel" class="order-1 rounded-[30px] border border-brand-stroke bg-[rgba(2,6,23,0.52)] p-4 shadow-glow backdrop-blur-xl transition-opacity duration-500 sm:p-6 lg:order-2 lg:p-7">
+                <section id="asset-panel" class="order-2 rounded-[30px] border border-brand-stroke bg-[rgba(2,6,23,0.52)] p-4 shadow-glow backdrop-blur-xl transition-opacity duration-500 sm:p-6 lg:order-2 lg:p-7">
                     <div class="glass-card-strong rounded-[26px] p-5 sm:p-6">
                         <div class="flex flex-col gap-4 border-b border-white/10 pb-5 sm:flex-row sm:items-end sm:justify-between">
                             <div>
@@ -276,7 +271,7 @@
                                                 <i data-lucide="upload-cloud" class="h-6 w-6 text-slate-300 transition-colors group-hover:text-sky-300"></i>
                                             </div>
                                             <p class="text-base font-medium text-white">Drag a file here or click to browse</p>
-                                            <p class="mt-2 text-xs text-slate-500">Supported files: PDF, ZIP, MP4 (max 2GB).</p>
+                                            <p class="mt-2 text-xs text-slate-500">Supported: PDF, ZIP, MP4 (max 2GB).</p>
                                         </div>
                                         <div id="drop-content-uploaded" class="hidden relative z-10 flex-col items-center w-full px-8">
                                             <i data-lucide="file-check" class="mb-3 h-9 w-9 text-emerald-400"></i>
@@ -330,7 +325,7 @@
 
                                 <button id="btn-generate" onclick="generateAsset()" class="mt-6 flex w-full items-center justify-center gap-2 rounded-full bg-btn-gradient px-5 py-4 text-sm font-semibold text-[#020617] shadow-lg shadow-sky-500/30 transition-all hover:brightness-110 active:scale-[0.98] disabled:cursor-not-allowed disabled:opacity-50">
                                     <i data-lucide="zap" class="h-5 w-5"></i>
-                                    Create Payment Link
+                                    Create My Payment Link
                                 </button>
                             </div>
                         </div>
@@ -346,7 +341,7 @@
                     <div class="mx-auto mb-5 flex h-16 w-16 items-center justify-center rounded-full border border-sky-400/20 bg-sky-400/10">
                         <i data-lucide="check" class="h-8 w-8 text-sky-300"></i>
                     </div>
-                    <div class="section-kicker mb-2 text-[11px] font-semibold uppercase text-slate-500">Payment link created</div>
+                    <div class="section-kicker mb-2 text-[11px] font-semibold uppercase text-slate-500">Payment link ready</div>
                     <h3 class="text-2xl font-semibold text-white">Your payment link is ready.</h3>
                     <p class="mt-2 text-sm text-slate-400">Share this link with your buyer.</p>
                 </div>
@@ -524,7 +519,7 @@
                 });
 
                 // STEP 2: CREATE PAYMENT LINK (Pass the URL)
-                btn.innerHTML = `<i data-lucide="loader-2" class="w-5 h-5 animate-spin"></i> Creating Payment Link...`;
+                btn.innerHTML = `<i data-lucide="loader-2" class="w-5 h-5 animate-spin"></i> Creating My Payment Link...`;
                 if (typeof lucide !== 'undefined') lucide.createIcons();
 
                 const response = await fetch('/api/create-payment-link', {
