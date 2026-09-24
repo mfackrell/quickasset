@@ -524,7 +524,7 @@
                 });
 
                 // STEP 2: CREATE PAYMENT LINK (Pass the URL)
-                btn.innerHTML = `<i data-lucide="loader-2" class="w-5 h-5 animate-spin"></i> Creating Link...`;
+                btn.innerHTML = `<i data-lucide="loader-2" class="w-5 h-5 animate-spin"></i> Creating Payment Link...`;
                 if (typeof lucide !== 'undefined') lucide.createIcons();
 
                 const response = await fetch('/api/create-payment-link', {
@@ -551,7 +551,7 @@
             }
             
             // Reset button
-            btn.innerHTML = `<i data-lucide="zap" class="w-5 h-5"></i> Generate Asset Link`;
+            btn.innerHTML = `<i data-lucide="zap" class="w-5 h-5"></i> Create Payment Link`;
             if (typeof lucide !== 'undefined') lucide.createIcons();
         }
 
