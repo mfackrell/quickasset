@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Refunds | QuickAsset</title>
+  <meta name="description" content="Refunds for QuickAsset." />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500,600,700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root { color-scheme: dark; --bg:#020617; --panel:rgba(15,23,42,.72); --stroke:rgba(148,163,184,.18); --text:#e5e7eb; --muted:#94a3b8; --sky:#38bdf8; }
+    * { box-sizing:border-box; }
+    body { margin:0; min-height:100vh; font-family:Inter,system-ui,sans-serif; color:var(--text); background:
+      radial-gradient(900px 650px at 10% -10%, rgba(56,189,248,.18), transparent 55%),
+      radial-gradient(800px 600px at 100% 0%, rgba(168,85,247,.10), transparent 55%), var(--bg); }
+    a { color:inherit; }
+    .shell { width:min(920px, calc(100% - 32px)); margin:0 auto; padding:28px 0 64px; }
+    header { display:flex; justify-content:space-between; align-items:center; gap:16px; margin-bottom:44px; }
+    .brand { text-decoration:none; font-weight:800; letter-spacing:-.02em; }
+    .back { color:var(--muted); font-size:14px; }
+    h1,h2 { font-family:Fraunces,Georgia,serif; }
+    h1 { font-size:clamp(38px,8vw,64px); line-height:.98; margin:0 0 18px; letter-spacing:-.045em; }
+    h2 { font-size:24px; margin:32px 0 10px; }
+    p, li { color:#b8c2d1; line-height:1.75; }
+    .card { background:var(--panel); border:1px solid var(--stroke); border-radius:24px; padding:clamp(22px,5vw,36px); box-shadow:0 28px 70px rgba(0,0,0,.35); }
+    .eyebrow { display:inline-flex; border:1px solid var(--stroke); background:rgba(255,255,255,.03); border-radius:999px; padding:7px 11px; color:#cbd5e1; font-size:12px; margin-bottom:18px; }
+    .notice { margin-top:22px; border:1px solid rgba(251,191,36,.25); background:rgba(251,191,36,.07); border-radius:16px; padding:14px 16px; color:#fde68a; font-size:13px; line-height:1.55; }
+    footer { margin-top:32px; padding-top:20px; border-top:1px solid var(--stroke); display:flex; flex-wrap:wrap; gap:14px 20px; color:var(--muted); font-size:12px; }
+    footer a:hover, .back:hover { color:white; }
+    .button { display:inline-flex; align-items:center; justify-content:center; border:none; border-radius:999px; padding:13px 20px; font-weight:700; text-decoration:none; cursor:pointer; background:linear-gradient(120deg,#4ade80,#38bdf8 45%,#2563eb); color:#020617; }
+    .muted { color:var(--muted); }
+    @media (max-width:640px) { header { align-items:flex-start; flex-direction:column; } }
+  </style>
+</head>
+<body>
+  <div class="shell">
+    <header>
+      <a class="brand" href="/">QuickAsset</a>
+      <a class="back" href="/">← Back to homepage</a>
+    </header>
+    
+  <main class="card">
+    <div class="eyebrow">Refunds</div>
+    <h1>Refund Policy</h1>
+    <p>QuickAsset sellers sell directly to their buyers. Unless a seller states otherwise, the seller is responsible for deciding and processing refund requests for the digital products they sell.</p>
+    <h2>Requesting a refund</h2>
+    <p>Buyers should contact the seller identified on the payment or delivery communication. If you cannot reach the seller or need help identifying the transaction, contact QuickAsset at <strong>[TODO: support email]</strong>.</p>
+    <h2>Chargebacks</h2>
+    <p>Card disputes and chargebacks are processed through Stripe and the connected seller account in accordance with Stripe's rules and card-network requirements.</p>
+    <h2>Platform fees</h2>
+    <p>Any treatment of QuickAsset platform fees following a refund is subject to the transaction structure and applicable payment-processing rules.</p>
+    <div class="notice">[TODO: Final refund economics and legal review required before production launch.]</div>
+  </main>
+
+    <footer>
+      <a href="/privacy/">Privacy</a>
+      <a href="/terms/">Terms</a>
+      <a href="/refunds/">Refunds</a>
+      <a href="/contact/">Contact</a>
+    </footer>
+  </div>
+  
+</body>
+</html>
