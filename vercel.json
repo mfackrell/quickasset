@@ -1,0 +1,13 @@
+{
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "rewrites": [
+    { "source": "/privacy", "destination": "/privacy/index.html" },
+    { "source": "/terms", "destination": "/terms/index.html" },
+    { "source": "/refunds", "destination": "/refunds/index.html" },
+    { "source": "/contact", "destination": "/contact/index.html" },
+    { "source": "/sample-buy", "destination": "/sample-buy/index.html" }
+  ],
+  "redirects": [
+    { "source": "/terms.html", "destination": "/terms", "permanent": true }
+  ]
+}
