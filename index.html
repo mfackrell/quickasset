@@ -649,7 +649,7 @@
           </p>
 
           <p class="mt-5 text-sm text-slate-400">
-            $0/month · 5% per sale · Stripe's standard processing fees apply
+            $0/month · 5% per sale · Stripe processing fees apply
           </p>
 
           <div class="hero-cta-row">
@@ -661,40 +661,56 @@
               Create My Payment Link
             </a>
 
-            <button
+            <a
+              href="/sample-buy/"
               class="btn btn-ghost"
-              type="button"
-              onclick="document.getElementById('how-it-works').scrollIntoView({ behavior: 'smooth' })"
+              onclick="window.va('event', 'Live_Buyer_Experience_Click', { location: 'hero_secondary' })"
             >
-              See How It Works
-            </button>
+              View Live Buyer Experience
+            </a>
           </div>
 
           <p class="mt-3 text-center text-xs text-slate-500">
-            Files deliver instantly. No monthly commitment. Cancel anytime.
+            Files deliver instantly. No monthly commitment.
+          </p>
+          <p class="mt-3 text-center text-xs text-slate-500">
+            You sell directly to your buyer. Stripe processes payment and pays out to your connected account.
+          </p>
+          <p class="mt-1 text-center text-xs text-slate-600">
+            You remain responsible for taxes, refunds, and customer policies.
           </p>
         </section>
 
+        <section class="mt-8 rounded-[24px] border border-white/10 bg-white/[0.03] px-6 py-5 text-center" aria-label="Early access">
+          <p class="text-sm font-medium text-slate-200">Early access is open for creators, consultants, and freelancers selling digital files.</p>
+          <p class="mt-2 text-xs text-slate-500">Want to be featured? Reply after your first sale.</p>
+        </section>
+
         <section id="how-it-works" class="mt-10 scroll-mt-8" aria-label="How QuickAsset works">
+          <div class="mb-5 text-center">
+            <div class="section-title">How QuickAsset works</div>
+          </div>
           <div class="grid gap-4 md:grid-cols-3">
             <article class="glass-panel p-6">
               <div class="mb-4 flex h-9 w-9 items-center justify-center rounded-full border border-sky-400/20 bg-sky-400/10 text-sm font-bold text-sky-300">1</div>
               <h2 class="text-base font-semibold text-white">Upload your file</h2>
-              <p class="mt-2 text-sm leading-6 text-slate-400">Add your PDF, template, or guide in seconds.</p>
+              <p class="mt-2 text-sm leading-6 text-slate-400">Add your PDF, ZIP, or MP4 (up to 2GB).</p>
             </article>
 
             <article class="glass-panel p-6">
               <div class="mb-4 flex h-9 w-9 items-center justify-center rounded-full border border-emerald-400/20 bg-emerald-400/10 text-sm font-bold text-emerald-300">2</div>
               <h2 class="text-base font-semibold text-white">Connect Stripe</h2>
-              <p class="mt-2 text-sm leading-6 text-slate-400">Link your existing Stripe account securely.</p>
+              <p class="mt-2 text-sm leading-6 text-slate-400">Securely link your Stripe account to accept payments.</p>
             </article>
 
             <article class="glass-panel p-6">
               <div class="mb-4 flex h-9 w-9 items-center justify-center rounded-full border border-violet-400/20 bg-violet-400/10 text-sm font-bold text-violet-300">3</div>
               <h2 class="text-base font-semibold text-white">Share your link</h2>
-              <p class="mt-2 text-sm leading-6 text-slate-400">Send it anywhere — DMs, email, social, your bio.</p>
+              <p class="mt-2 text-sm leading-6 text-slate-400">Send it in DMs, email, social, or your website.</p>
             </article>
           </div>
+          <p class="mt-5 text-center text-xs text-slate-500">Digital file delivery is instant after successful payment.</p>
+          <p class="mt-2 text-center text-xs text-slate-600">Example: On a $29 sale, platform fee = $1.45 (Stripe fees separate).</p>
         </section>
 
         <section id="interactive-demo" class="app-container" aria-label="Interactive product demo">
@@ -974,10 +990,19 @@
         </p>
       </section>
 
+      <section class="mt-10 rounded-[20px] border border-white/10 bg-white/[0.025] px-5 py-4 text-center text-xs text-slate-500" aria-label="Support">
+        Questions before connecting Stripe? Contact support: <strong class="font-medium text-slate-300">[TODO: support email]</strong>
+      </section>
+
       <footer>
-        <div>© <span id="year"></span> QuickAsset. $0/month • ~5% fee per sale • Powered by Stripe Connect.</div>
-        <div>Stripe is Merchant of Record; you keep control of taxes, refunds, and payouts.</div>
-        <div><a href="/terms.html" class="underline hover:text-sky-400 transition">Terms of Service</a></div>
+        <div>© <span id="year"></span> QuickAsset. $0/month • 5% fee per sale • Powered by Stripe Connect.</div>
+        <div>You sell directly to your buyer. Stripe processes payment and pays out to your connected account.</div>
+        <div class="flex flex-wrap justify-center gap-x-4 gap-y-2">
+          <a href="/privacy/" class="underline hover:text-sky-400 transition">Privacy</a>
+          <a href="/terms/" class="underline hover:text-sky-400 transition">Terms</a>
+          <a href="/refunds/" class="underline hover:text-sky-400 transition">Refunds</a>
+          <a href="/contact/" class="underline hover:text-sky-400 transition">Contact</a>
+        </div>
       </footer>
 
     </div>
