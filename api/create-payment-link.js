@@ -9,7 +9,12 @@ export default async function handler(req, res) {
 
     try {
         // 1. Receive the downloadUrl (from Blob) and other details
-        const body = typeof req.body === 'string' ? JSON.parse(req.body) : req.body;
+        let body;
+        try {
+            body = typeof req.body === 'string' ? JSON.parse(req.body) : req.body;
+        } catch {
+            return res.status(400).json({ error: 'Invalid JSON' });
+        }
         const { title, price, accountId, email, downloadUrl } = body || {};
 
         if (!accountId) return res.status(400).json({ error: 'No connected account found' });
